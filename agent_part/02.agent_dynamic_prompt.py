@@ -23,7 +23,8 @@ def get_location() -> str:
 @wrap_model_call
 def change_model(request: ModelRequest, handler) -> ModelResponse:
     print(request)
-    message_count = len(request.state["messages"])
+    # message_count = len(request.state["messages"])
+    message_count = len(request.state.messages)
     if message_count < 3:
         model = base_model
     else:
