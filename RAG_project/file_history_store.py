@@ -63,7 +63,7 @@ class FileChatMessageHistory(BaseChatMessageHistory):
             json.dump([], f)
 
 
-# prompt = ChatPromptTemplate.from_messages(
+# prompts = ChatPromptTemplate.from_messages(
 #     [
 #         ("system", "你需要根据会话历史回应用户问题，对话历史："),
 #         MessagesPlaceholder('chat_history'),
@@ -71,7 +71,7 @@ class FileChatMessageHistory(BaseChatMessageHistory):
 #     ]
 # )
 #
-# base_chain = prompt | deepseek_llm | StrOutputParser()
+# base_chain = prompts | deepseek_llm | StrOutputParser()
 #
 # conversation_chain = RunnableWithMessageHistory(
 #     base_chain,

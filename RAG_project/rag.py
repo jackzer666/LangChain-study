@@ -9,7 +9,7 @@ from RAG_project.file_history_store import get_history
 
 def print_prompt(prompt):
     # print("=" * 20)
-    # print(prompt)
+    # print(prompts)
     # print("=" * 20)
     return prompt
 
