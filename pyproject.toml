@@ -10,4 +10,6 @@ dependencies = [
     "langchain-community>=0.4.1",
     "langchain-deepseek>=1.0.1",
     "langgraph-checkpoint-mysql[pymysql]>=3.0.0",
+    "markdown>=3.10.2",
+    "unstructured>=0.22.28",
 ]

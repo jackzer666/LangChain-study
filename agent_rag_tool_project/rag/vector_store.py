@@ -5,9 +5,9 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from agent_rag_tool_project.model.factory import embed_model
-from agent_rag_tool_project.utils.config_handler import chroma_conf
+from agent_rag_tool_project.utils.config_handler import chroma_conf, rag_conf
 from agent_rag_tool_project.utils.file_handler import txt_loader, pdf_loader, listdir_width_allowed_type, \
-    get_file_md5_hex
+    get_file_md5_hex, md_loader
 from agent_rag_tool_project.utils.logger_handler import logger
 from agent_rag_tool_project.utils.path_tool import get_abs_path
 
@@ -17,7 +17,7 @@ class VectorStoreService:
         self.vector_store = Chroma(
             collection_name = chroma_conf["collection_name"],
             embedding_function = embed_model,
-            persist_directory = chroma_conf["persist_directory"],
+            persist_directory = get_abs_path(chroma_conf["persist_directory"]),
         )
         self.spliter = RecursiveCharacterTextSplitter(
             chunk_size=chroma_conf["chunk_size"],
@@ -71,6 +71,9 @@ class VectorStoreService:
             if read_path.endswith(".pdf"):
                 return pdf_loader(read_path)
 
+            if read_path.endswith(".md"):
+                return md_loader(read_path)
+
             return []
 
 
@@ -92,14 +95,20 @@ class VectorStoreService:
                     logger.warning(f"[加载知识库]{path}内没有有效文本内容，跳过")
                     continue
 
+                # print(documents)
                 split_document: list[Document] = self.spliter.split_documents(documents)
 
                 if not split_document:
                     logger.warning(f"[加载知识库]{path}分片后没有有效文本内容，跳过")
                     continue
 
-                # 将内容存入向量库中
-                self.vector_store.add_documents(split_document)
+                # print(split_document)
+
+                # 将内容存入向量库中（智谱AI每次最多64条）
+                batch_size = rag_conf["embedding_batch_max_size"]
+                for i in range(0, len(split_document), batch_size):
+                    batch = split_document[i:i + batch_size]
+                    self.vector_store.add_documents(batch)
 
                 # 记录处理好的md5值
                 save_md5_hex(md5_hex)
@@ -111,12 +120,13 @@ class VectorStoreService:
                 logger.error(f"[加载知识库]{path}加载失败：{str(e)}", exc_info=True)
 
 
-# if __name__ == "__main__":
-#     vs = VectorStoreService()
-#     vs.load_document()
-#
-#     retriever = vs.get_retriever()
-#     res = retriever.invoke("我是谁")
-#     for r in res:
-#         print(r.page_content)
-#         print("-" * 20)
+if __name__ == "__main__":
+    vs = VectorStoreService()
+    vs.load_document()
+
+
+    # retriever = vs.get_retriever()
+    # res = retriever.invoke("我想知道智己车机adb连接步骤是什么")
+    # for r in res:
+    #     print(r.page_content)
+    #     print("-" * 20)

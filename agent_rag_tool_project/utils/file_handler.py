@@ -1,7 +1,9 @@
 import hashlib
 import os
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, UnstructuredMarkdownLoader
 from langchain_core.documents import Document
+from langchain_text_splitters import MarkdownHeaderTextSplitter
+
 from agent_rag_tool_project.utils.logger_handler import logger
 
 def get_file_md5_hex(filepath: str):
@@ -50,11 +52,12 @@ def listdir_width_allowed_type(path: str, allowed_types: tuple[str]):
 
     if not os.path.isdir(path):
         logger.error(f"[listdir_width_allowed_type]{path}不是文件夹")
-        return allowed_types
+        return tuple(files)
 
-    for f in os.listdir(path):
-        if f.endswith(allowed_types):
-            files.append(os.path.join(path, f))
+    for dirpath, dirnames, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.endswith(allowed_types):
+                files.append(os.path.join(dirpath, filename))
 
     return tuple(files)
 
@@ -64,3 +67,48 @@ def pdf_loader(filepath: str, passwd = None) -> list[Document]:
 
 def txt_loader(filepath: str) -> list[Document]:
     return TextLoader(filepath, encoding="utf-8").load()
+
+def _process_frontmatter(filepath: str, content: str):
+    """
+    处理markdown中的frontmatter部分
+    :return:
+    """
+    if content.startswith("---"):
+        parts = content.split("---", 2)
+        if len(parts) >= 3:
+            frontmatter = parts[1]
+            body = parts[2]
+
+            metadata = {"source": filepath}
+            for line in frontmatter.split("\n"):
+                if ":" in line:
+                    key, value = line.split(":", 1)
+                    metadata[key.strip()] = value.strip()
+
+            # 如果内容没有h1，将title作为h1添加到内容开头
+            title = metadata.get("title", "")
+            if title and not body.strip().startswith("# "):
+                body = f"# {title}\n\n{body}"
+
+            return {"body": body, "metadata": metadata}
+
+    return {"body": content, "metadata": {"source": filepath}}
+
+
+def md_loader(filepath: str) -> list[Document]:
+    with open(filepath, "r", encoding="utf-8") as f:
+        md_text = f.read()
+
+    headers_to_split_on = [("#", "h1"), ("##", "h2"), ("###", "h3")]
+    md_splitter = MarkdownHeaderTextSplitter(
+        headers_to_split_on = headers_to_split_on,
+        return_each_line = False,
+    )
+
+    process_data = _process_frontmatter(filepath, md_text)
+    return md_splitter.split_text(process_data.get("body"))
+
+    # return UnstructuredMarkdownLoader(filepath, mode="single").load()
+#
+# if __name__ == '__main__':
+#     _process_frontmatter('mypath', 'test')
