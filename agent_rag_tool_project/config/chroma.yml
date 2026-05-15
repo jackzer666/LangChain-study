@@ -2,17 +2,17 @@
 collection_name: agent
 persist_directory: chroma_db
 # 向量匹配的结果数量
-k: 3
+k: 10
 # 数据文件夹
 data_path: data
 # 记录已经处理过的文件
 md5_hex_store: md5.txt
 # 允许加载的文件类型
-allow_knowledge_file_type: ["txt", "pdf"]
+allow_knowledge_file_type: ["txt", "pdf", "md"]
 
 # 分段长度
-chunk_size: 200
+chunk_size: 500
 # 分段重叠部分长度
-chunk_overlap: 20
+chunk_overlap: 100
 # 分割符号
 separators: ["\n\n", "\n", ".", "!", "?", "。", "！", "？", " "]
