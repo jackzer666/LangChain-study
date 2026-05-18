@@ -1,5 +1,7 @@
 import hashlib
 import os
+import re
+
 from langchain_community.document_loaders import PyPDFLoader, TextLoader, UnstructuredMarkdownLoader
 from langchain_core.documents import Document
 from langchain_text_splitters import MarkdownHeaderTextSplitter
@@ -94,21 +96,76 @@ def _process_frontmatter(filepath: str, content: str):
 
     return {"body": content, "metadata": {"source": filepath}}
 
+# 匹配代码块
+CODE_BLOCK_PATTEN = re.compile(
+    r"```[\s\S]*?```",
+    re.MULTILINE
+)
+
+def replace_code_blocks(text: str):
+    """
+    提取md中的代码块，存入metadata，暂时替换成placeholder占位符，避免被分割
+    :param text:
+    :return:
+    """
+    code_map = {}
+
+    def replacer(match):
+        code = match.group(0)
+        placeholder = f"[CODE_BLOCK_{len(code_map)}]"
+        code_map[placeholder] = code
+        return placeholder
+
+    replaced_text = CODE_BLOCK_PATTEN.sub(replacer, text)
+    return replaced_text, code_map
+
+def restore_code_blocks(text: str, code_map: dict):
+    """
+    恢复代码块部分
+    :param text:
+    :param code_map:
+    :return:
+    """
+    for placeholder, code in code_map.items():
+        text = text.replace(placeholder, code)
+    return text
+
 
 def md_loader(filepath: str) -> list[Document]:
     with open(filepath, "r", encoding="utf-8") as f:
         md_text = f.read()
 
-    headers_to_split_on = [("#", "h1"), ("##", "h2"), ("###", "h3")]
+    headers_to_split_on = [
+        ("#", "h1"),
+        ("##", "h2"),
+        ("###", "h3")
+    ]
     md_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on = headers_to_split_on,
         return_each_line = False,
     )
-
     process_data = _process_frontmatter(filepath, md_text)
-    return md_splitter.split_text(process_data.get("body"))
+    docs = md_splitter.split_text(process_data.get("body"))
+    final_docs = []
 
-    # return UnstructuredMarkdownLoader(filepath, mode="single").load()
-#
-# if __name__ == '__main__':
-#     _process_frontmatter('mypath', 'test')
+    for doc in docs:
+
+        # 将metadata中的标题部分重新拼回page_content
+        headers = []
+        if "h1" in doc.metadata:
+            headers.append(f"# {doc.metadata['h1']}")
+        if "h2" in doc.metadata:
+            headers.append(f"## {doc.metadata['h2']}")
+        if "h3" in doc.metadata:
+            headers.append(f"### {doc.metadata['h3']}")
+        header_text = "\n".join(headers)
+        doc.page_content = f"{header_text}\n\n{doc.page_content}"
+
+        # 替换代码块部分
+        replaced_text, code_map = replace_code_blocks(doc.page_content)
+        doc.page_content = replaced_text
+        doc.metadata["_code_map"] = code_map
+
+        # 处理好的数据重新组装返回
+        final_docs.append(doc)
+    return final_docs
