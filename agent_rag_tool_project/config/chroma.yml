@@ -16,3 +16,9 @@ chunk_size: 500
 chunk_overlap: 100
 # 分割符号
 separators: ["\n\n", "\n", ".", "!", "?", "。", "！", "？", " "]
+
+# md 分割符号
+md_separators: ["\n\n"]
+# md 分段长度
+md_chunk_size: 1000
+

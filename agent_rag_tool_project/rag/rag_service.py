@@ -7,6 +7,7 @@ from langchain_core.prompts import PromptTemplate
 
 from agent_rag_tool_project.model.factory import chat_model
 from agent_rag_tool_project.rag.vector_store import VectorStoreService
+from agent_rag_tool_project.utils.logger_handler import logger
 from agent_rag_tool_project.utils.prompt_loader import load_rag_prompts
 
 
@@ -35,7 +36,9 @@ class RagSummarizeService(object):
         :param query:
         :return:
         """
-        return self.retriever.invoke(query)
+        rag_docs = self.retriever.invoke(query)
+        logger.info(f"[retriever_docs]rag检索结果：{rag_docs}")
+        return rag_docs
 
     def rag_summarize(self, query: str) -> str:
         """
