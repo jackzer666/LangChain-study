@@ -5,7 +5,7 @@ from agent_rag_tool_project.rag.rag_service import RagSummarizeService
 
 rag = RagSummarizeService()
 
-@tool(description="从向量存储中检索参考资料")
+@tool(description="从知识库中检索相关参考资料，返回精简后的内容摘录、来源、标题和chunk_id。工具只提供证据摘要，不返回完整原始资料")
 def rag_summarize(query: str) -> str:
     return rag.rag_summarize(query)
 
