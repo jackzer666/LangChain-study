@@ -53,3 +53,19 @@ def load_report_prompts():
         logger.error(f"[load_report_prompts]解析报告提示词错误，{str(e)}")
 
 
+def load_query_rewrite_prompts():
+    """
+    读取query rewrite提示词
+    :return:
+    """
+    try:
+        query_rewrite_prompt_path = get_abs_path(prompts_conf['query_rewrite_prompt_path'])
+    except KeyError as e:
+        logger.error(f"[load_query_rewrite_prompts]在yaml配置中没有query_rewrite_prompt_path配置项")
+        raise e
+
+    try:
+        return open(query_rewrite_prompt_path, "r", encoding="utf-8").read()
+    except Exception as e:
+        logger.error(f"[load_query_rewrite_prompts]解析query rewrite提示词错误，{str(e)}")
+

@@ -1,6 +1,6 @@
 import json
 
-from agent_rag_tool_project.rag.vector_store import VectorStoreService
+from agent_rag_tool_project.rag.rag_service import RagSummarizeService
 from agent_rag_tool_project.utils.logger_handler import logger
 from agent_rag_tool_project.utils.path_tool import get_abs_path
 
@@ -17,15 +17,14 @@ def evaluate_recall():
     # 按 question_type 统计
     type_stats = {}
 
-    vs = VectorStoreService()
-    retriever = vs.get_retriever()
+    rag_service = RagSummarizeService()
 
     for item in dataset:
         question = item["question"]
         gold_chunk_ids = item["gold_chunk_ids"]
         question_type = item["question_type"]
 
-        docs = retriever.invoke(question)
+        docs = rag_service.retriever_docs(question)
         retrieved_ids = [doc.metadata.get("chunk_id") for doc in docs]
         logger.info(f"[recall_eval]: 查询到的{retrieved_ids}，预设的{gold_chunk_ids}")
 

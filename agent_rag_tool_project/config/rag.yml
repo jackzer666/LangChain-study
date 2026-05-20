@@ -1,3 +1,8 @@
 embedding_batch_max_size: 64
 
 chunks_file: chunks.jsonl
+
+query_rewrite:
+  enabled: true
+  max_queries: 3
+  use_original_query: true
