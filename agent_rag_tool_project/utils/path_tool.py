@@ -26,5 +26,15 @@ def get_abs_path(relative_path: str) -> str:
     project_root = get_project_root()
     return os.path.join(project_root, relative_path)
 
+def get_relative_path(abs_path: str) -> str:
+    """
+    传递绝对路径，得到相对路径
+    :param abs_path:
+    :return:
+    """
+    relative_path = os.path.relpath(abs_path, get_project_root())
+    return relative_path
+
+
 # if __name__ == "__main__":
 #     print(get_abs_path("config/yesy.txt"))
