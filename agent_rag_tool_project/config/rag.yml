@@ -1,1 +1,3 @@
 embedding_batch_max_size: 64
+
+chunks_file: chunks.jsonl

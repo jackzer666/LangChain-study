@@ -7,11 +7,12 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from agent_rag_tool_project.model.factory import embed_model
+from agent_rag_tool_project.rag.bm25 import Bm25
 from agent_rag_tool_project.utils.config_handler import chroma_conf, rag_conf
 from agent_rag_tool_project.utils.file_handler import txt_loader, pdf_loader, listdir_width_allowed_type, \
     get_file_md5_hex, md_loader, restore_code_blocks
 from agent_rag_tool_project.utils.logger_handler import logger
-from agent_rag_tool_project.utils.path_tool import get_abs_path
+from agent_rag_tool_project.utils.path_tool import get_abs_path, get_relative_path
 
 
 class VectorStoreService:
@@ -119,9 +120,9 @@ class VectorStoreService:
 
             # 获取文件md5
             md5_hex = get_file_md5_hex(path)
-            if check_md5_hex(md5_hex):
-                logger.info(f"[加载知识库]{path}内容已经存在知识库中，跳过")
-                continue
+            # if check_md5_hex(md5_hex):
+            #     logger.info(f"[加载知识库]{path}内容已经存在知识库中，跳过")
+            #     continue
 
             try:
                 documents: list[Document] = get_file_documents(path)
@@ -129,22 +130,25 @@ class VectorStoreService:
                     logger.warning(f"[加载知识库]{path}内没有有效文本内容，跳过")
                     continue
 
-                # print(documents)
+                relative_path = get_relative_path(path)
                 split_document: list[Document] = file_splitter(
                     documents,
-                    path
+                    relative_path
                 )
 
-                # 为每个chunk添加metadata，尤其是chunk_id，为后续分析召回作准备
+                # 为每个chunk添加metadata，尤其是chunk_id，为后续召回分析作准备
                 for doc in split_document:
                     chunk_id = str(uuid.uuid4())
                     doc.metadata["chunk_id"] = chunk_id
-                    doc.metadata["source_file"] = path # path可能是完整路径，后续考虑是否修改
+                    doc.metadata["source_file"] = relative_path # path可能是完整路径，后续考虑是否修改
                     chunk_mappings.append({
                         "chunk_id": chunk_id,
-                        "source_file": path,
+                        "source_file": relative_path,
                         "content": doc.page_content,
                     })
+
+                print("split_document", split_document)
+                Bm25().save_to_jsonl(split_document)
 
                 if not split_document:
                     logger.warning(f"[加载知识库]{path}分片后没有有效文本内容，跳过")
@@ -200,6 +204,10 @@ class VectorStoreService:
 
         logger.info(f"[load_document_verify]md_spliter切割\n{split_document}")
 
+    def similarity_search_with_score(self, query: str, k: int = 20):
+        res = self.vector_store.similarity_search_with_score(query, k = k)
+        logger.info(f"[similarity_search_with_score]:{res}")
+        return res
 
     def retrieval_debug(self, query: str):
         """
