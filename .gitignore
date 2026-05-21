@@ -3,3 +3,10 @@
 __pycache__/
 
 .env
+.claude
+chroma_db/
+logs/
+*.pyc
+md5.txt
+data/
+chat_history/
