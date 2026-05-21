@@ -1,0 +1,136 @@
+[
+  {
+    "index": 1,
+    "question": "线上问题处理（紧急通道）是什么",
+    "gold_chunk_ids": ["80fd2330-0bea-4ad4-a4a0-b7d645f0dcac", "4f8a1131-1a7c-4281-9dfd-8fdedc5930bf", "44076dfe-16b7-41c3-bfd6-6bd6eea33d55"],
+    "question_type": "exact"
+  },
+  {
+    "index": 2,
+    "question": "代码规范有哪些",
+    "gold_chunk_ids": ["c56823a0-cdc4-43d1-9773-d1f98e6329eb", "40d95e5c-dd6b-4cdc-9351-e5ba68d4af5f", "87559c13-b622-4a1a-890e-2b1f02c43238", "26595e03-1f8c-498b-bb00-cd6e35752c4d", "1b359246-8fe6-4b74-9059-c925ff3a962b", "e777bded-e1e8-47be-9933-b2e55b2b8922"],
+    "question_type": "exact"
+  },
+  {
+    "index": 3,
+    "question": "隐私协议更新流程是什么",
+    "gold_chunk_ids": ["42a59631-1504-45af-96a0-7e28a00e4f89", "62ad3f49-00c4-475f-bc20-1430a26dd397", "c73bcde8-3f7d-4e88-b025-56bd2849a839", "4a16cedb-b1d2-4e80-bf68-6257537ec743"],
+    "question_type": "exact"
+  },
+  {
+    "index": 4,
+    "question": "如何杀死爱奇艺",
+    "gold_chunk_ids": ["dbfba51e-7b91-4c56-ade5-ffa2a0bbd5c9"],
+    "question_type": "exact"
+  },
+  {
+    "index": 5,
+    "question": "前端开发环境怎么配置",
+    "gold_chunk_ids": [
+      "ebc621ca-b1cb-4c93-8cae-41ceed084732",
+      "088d94c6-4542-48e2-99d5-e589dd46b4d7",
+      "e6042533-3221-4bf2-8f3a-fe01f8d2594a",
+      "de3b7600-ff48-4e22-aac8-2eed3af41f9d",
+      "412c4da4-4ae0-4984-8bb8-e76853db880f",
+      "340e399f-e9e2-4923-9a86-7b5cad0db4ac",
+      "629ce4e7-25c0-427e-a03e-094a37eb492d",
+      "7fe9fc17-44e4-4d54-8842-8580b91e46d1"
+    ],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 6,
+    "question": "前端规范中，代码提交规范是什么",
+    "gold_chunk_ids": ["5c1d57f-0d59-4b14-bdba-7a3654fa4c3a", "d1644619-b8f4-4357-935e-14311062716b", "c075490d-3b0d-45bf-99dd-9911fdb25ea4", "9a3fa6d7-f2f8-4f74-94db-991444011567", "85e8467-5544-4958-869f-38564a42855a", "3a64ee41-3b22-4522-8bb3-fff4886167f1"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 7,
+    "question": "前端规范中，是否存在对时间处理的约定？",
+    "gold_chunk_ids": ["e777bded-e1e8-47be-9933-b2e55b2b8922"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 8,
+    "question": "在爱奇艺车载h5项目中，如何进行上线部署？",
+    "gold_chunk_ids": ["1d458da6-6cc7-442f-9488-497661249d49"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 9,
+    "question": "在爱奇艺播放器项目中，如何进行上线部署？",
+    "gold_chunk_ids": ["de133876-b9f8-4ea5-8f03-a8cd5052fe46"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 10,
+    "question": "在爱奇艺播放器项目中，对window有什么处理？",
+    "gold_chunk_ids": [
+      "635a917a-b743-43b2-993b-9ded85a0fb3e",
+      "5853b37c-aee9-4484-a449-7a609ed55919",
+      "4104f1e4-6290-4860-9769-31828c7ef61d",
+      "4c4f3da0-2837-43b3-bc5c-ca26dacac632",
+      "0775ea84-6527-49d4-b1a2-2c2061e2159e",
+      "dcbf52b8-6cb7-4c60-b2ce-41806c611a86",
+      "e2732e57-7ab5-4eb0-88e5-dec6002a8248",
+      "65b398e0-46e6-4192-91bd-97eb89899ce5",
+      "5a61f26d-a33b-4e58-b1f9-3807cf364a94",
+      "52a1b3a4-9960-49e5-a2fc-83ed6770c142",
+      "7ffb0389-90b7-42e0-bc33-a62055f6adff",
+      "c57d1ba4-a3b7-436c-bc1e-636decc1929c",
+      "8bc0aede-3b0d-42e1-892d-2a1fdb3eb191",
+      "179e08f5-ac45-4c72-a61a-3d94f065cc3e",
+      "bc953d86-d2fb-4589-97a9-e14285bc8692",
+      "7f6e8a34-56d0-456f-b285-a7e08d493fda",
+      "9120b51b-bb69-4d43-88c7-230583446986",
+      "e312b59a-e21a-4cb1-9583-761c76bba976",
+      "ebb688da-efab-4c7f-b056-c6c3c7d2af1a",
+      "a0cc7627-3794-4bd8-97cc-9eab24dc6379",
+      "ade0d41d-46d6-44f4-b648-7e541ad22727",
+      "695ffcdf-193b-44be-8a3d-8575c473c6be"
+    ],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 11,
+    "question": "智己车机怎么联网？",
+    "gold_chunk_ids": ["e4520dc8-1c2a-486e-a2da-e7a63fef8a4f"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 12,
+    "question": "我想卸载爱奇艺app，怎么做？",
+    "gold_chunk_ids": ["6d81b99d-471d-4bfe-ad35-c71c35edc357"],
+    "question_type": "paraphrase"
+  },
+  {
+    "index": 13,
+    "question": "智己车机上所有app都打不开，一直在转圈，是什么问题？",
+    "gold_chunk_ids": ["e4520dc8-1c2a-486e-a2da-e7a63fef8a4f"],
+    "question_type": "keyword missing"
+  },
+  {
+    "index": 14,
+    "question": "为什么电脑识别不到车机",
+    "gold_chunk_ids": ["d3862391-f6a1-4de5-9f1c-83b95128b80c"],
+    "question_type": "keyword missing"
+  },
+  {
+    "index": 15,
+    "question": "我代码一直提交不上去怎么办",
+    "gold_chunk_ids": ["f5c1d57f-0d59-4b14-bdba-7a3654fa4c3a"],
+    "question_type": "keyword missing"
+  },
+  {
+    "index": 16,
+    "question": "我项目起不来",
+    "gold_chunk_ids": ["ebc621ca-b1cb-4c93-8cae-41ceed084732", "088d94c6-4542-48e2-99d5-e589dd46b4d7", "e6042533-3221-4bf2-8f3a-fe01f8d2594a"],
+    "question_type": "keyword missing"
+  },
+  {
+    "index": 17,
+    "question": "为什么不刷新",
+    "gold_chunk_ids": ["e4520dc8-1c2a-486e-a2da-e7a63fef8a4f"],
+    "question_type": "ambiguous"
+  }
+]
