@@ -1,0 +1,352 @@
+[
+  {
+    "chunk_id": "ec3c881a-907e-4f2b-83c2-6bd76b742060",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 接口数据处理\n\n* 对接口返回的数组类型字段需进行兜底处理，确保空值时返回空数组`[]`。如后端未处理，前端应进行判空处理。\n* 对不确定的数据结构进行JSON解析时，须使用`try...catch`封装，确保程序健壮性。"
+  },
+  {
+    "chunk_id": "7bfc5b45-9620-4c71-9feb-0e795cd0ac31",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 代码格式与注释\n\n* 注释应置于代码上方单独一行，禁止使用行尾注释。\n* 修改遗留代码时，已注释的废弃代码必须删除。若因特殊原因暂需保留，须添加`TODO`注释并注明计划清理的迭代版本。\n* 提交前应移除所有调试用的`console`语句。确需保留时，须通过`//eslint-disable-next-line`明确声明。"
+  },
+  {
+    "chunk_id": "c523d7da-b807-45de-9331-477d707f02ef",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 编码规范\n\n* 函数若无异步操作，禁止使用`async`关键字。\n* 推荐使用可选链运算符`?.`简化空值判断，但需注意：\n* 若已在`if`条件中使用`a?.b`进行判断，后续代码中应直接使用`a.b`，禁止重复使用`?.`。\n* 避免过度使用兜底赋值，如已通过解构设置默认值`const{a=[]}=b`，则后续无需再次对a进行`||[]`判断。\n* 禁止使用含义不明确的字面量：\n* 接口返回值应与声明的常量进行对比，例如定义`constSTATUS_SUCCESS=1`，判断应为`if(a===STATUS_SUCCESS)`。\n* 组件状态值应使用枚举对象统一定义，如`constSTEP={START:1,PROCESSING:2,SUCCESS:3}`。\n* 多次使用的值应提取为常量：\n* `localStorage`等操作的`key`须定义为大写蛇形命名常量（如`USER_INFO_KEY`），并置于文件顶部。\n* 同一对象属性被多次引用或属性数量超过3个时，推荐预先解构。但公共枚举或全局变量允许直接引用。\n* 严格使用`===`进行比较，禁止使用`==`。"
+  },
+  {
+    "chunk_id": "c2172f02-db2d-49b3-8b0d-781a969d51b7",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 组件与文件规范\n\n* 组件内部定义名称须与文件名保持一致。\n* 模块导出应统一置于文件底部，禁止使用行内`export`。修改遗留文件时，须将行内导出迁移至底部。\n* 函数命名应体现其功能，如移除操作应以`remove`开头。"
+  },
+  {
+    "chunk_id": "616c658f-711f-448d-b45d-4a536d7ddafa",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 样式与模板\n\n* 优先使用`class`定义样式，避免使用行内`style`。确需使用时，行内样式不得超过3条，超出则应转换为`class`。\n* 模板中的空格应使用`&nbsp;`实体表示。"
+  },
+  {
+    "chunk_id": "6bbf8f60-ef6f-45ce-8aac-19c2bc1c131d",
+    "source_file": "data/frontend/prepare-standard-code.md",
+    "content": "# 代码规范\n## 工具与异步处理\n\n* 时间相关操作统一使用`moment.js`库处理。\n* 异步处理推荐使用`async/await`语法，替代`.then().catch()`链式调用。"
+  },
+  {
+    "chunk_id": "1b0f5bfa-2094-4a13-96de-cddc55154ccf",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 项目概览\n### 项目简介\n\n作为爱奇艺车载h5中爱奇艺播放器核心代码的定制代码，与官网相比，此播放器代码是在老版本的基础上做了功能阉割，且定制开发了一些适配h5的新功能"
+  },
+  {
+    "chunk_id": "5f338940-0875-4e60-9ca1-733cfdf243a3",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 项目概览\n### 项目仓库地址\n\n* **仓库地址**：[点这里](https://github.com/iqiyi/IQIYI_H5_IV)\n* **仓库权限申请**：联系爱奇艺侧 @蔡加丽 申请仓库权限"
+  },
+  {
+    "chunk_id": "25d8917e-db4e-4b0e-b3ff-0c34db7275fa",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 项目概览\n### 功能架构\n\n```mermaid\n---\ntitle: 爱奇艺H5模块架构\n---\nblock-beta\ncolumns 3\nblock:G1[\"pcw-main-player - 主播放器模块 \\n\\n\\n\"]\ncolumns 3\nspace:3\nA1[\"UI组件\"]\nA2[\"编译构建\"]\nA3[\"播放器初始化\"]\nend\nblock:G2[\"kiwi - 视频播放核心引擎 \\n\\n\\n\"]\ncolumns 3\nspace:3\nB1[\"编解码\"]\nB2[\"渲染器\"]\nB3[\"格式处理\"]\nend\nG3[\"mars - 广告 SDK\"]\nG4[\"shared-utils - 共享工具库\"]\nG5[\"vps-request - VPS 请求模块\"]\nG6[\"launch-point 和 launch-quality - 启动相关模块\"]\n```"
+  },
+  {
+    "chunk_id": "d6b6410a-80b5-443c-833a-992a13e2d117",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 开发环境配置\n### 依赖安装\n\n```bash\ngit clone <repo>\n# 使用 node 22\ncd project && npm run install\n# 为 monorepo 的每个子项目包安装依赖\ncd /packages/<project> && npm run install\n```\n:::warning\n* 项目仅支持**macOS**，且部分依赖是爱奇艺内网代理，外网无法安装。因此先安装其他依赖，再拷贝爱奇艺相关依赖（一般是@iqiyi开头的）至node_modules中\n* windows不支持本项目，猜测是部分依赖下存在symlink文件，安装或者拷贝时存在问题\n:::"
+  },
+  {
+    "chunk_id": "dfec1260-b642-4e1b-810d-2f918bb99fa9",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 开发环境配置\n### demo启动\n\n```bash\n# 项目根目录下运行，启动本地 127.0.0.1:8000\nnpm run dev-wonder\n```\n* **host配置**：直接打开 127.0.0.1:8000 时页面会报错，需要配置本地host，将包含.iqiyi.com主域名的域名地址解析到 127.0.0.1，如`login.iqiyi.com 127.0.0.1`，访问 login.iqiyi.com:8000 可以正常访问\n* **tvid配置**：/packages/pcw-main-player/examples/index.html是demo页面的根文件，修改其中的`tvid`参数，可播放对应的视频，如果页面需要登录，则需要在同域名下的基础代码项目中登录后共享cookie的登录状态\n* **demo热更新**：webpack监听了entry页面，页面依赖项（通常是/packages/pcw-main-player下的文件）修改会引起demo页面的重新重新构建"
+  },
+  {
+    "chunk_id": "e5c8432b-98e8-4b99-b66b-902514c58158",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 开发环境配置\n### 构建\n\n```bash\n# 项目根目录下运行，构建产物地址 packages/pcw-main-player/dist\nnpm run build\n```"
+  },
+  {
+    "chunk_id": "3aa9f937-4ae5-4a2e-a794-6113e691195a",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 环境分支\n\n|  车企   | 环境 | 分支 |\n| ---- | ---- | ---- |\n| 特斯拉 | 测试 | player-tesla |\n| 特斯拉 | 正式 | player-tesla-prod |\n| 斑马智己 | 测试 | player-bm_zj |\n| 斑马智己 | 正式 | player-bm_zj |\n| 斑马上乘 | 测试 | player-bm_sc |\n| 斑马上乘 | 正式 | player-bm_sc |\n| 现代LG | 测试 | player-lg_xd |\n| 现代LG | 正式 | player-lg_xd |"
+  },
+  {
+    "chunk_id": "b80132ea-d9f9-4b49-bc81-e52551961a00",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 部署与协作流程\n### 分支策略\n\n分支策略参考[这里](/frontend/prepare-standard-process#阶段二开发与提交)\n目前斑马与现代作为历史代码，其（单一车企）测试环境与测试环境分支是使用的同一个，后续如果有开发需求务必区分两个分支，参考特斯拉分支"
+  },
+  {
+    "chunk_id": "721ff946-6a61-4726-999e-4fa0c3ee4bd1",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 部署与协作流程\n### 发布流程\n\n发布需通知爱奇艺侧发布，具体发布流程参考[这里](/frontend/prepare-standard-process#阶段三测试与发布)  \n#### 构建链路拆解\n```mermaid\nflowchart TD\nA[npm run build] --> B[执行 build.js]\nB --> C[清理 dist 目录]\nC --> D[解析资源配置 resources]\nD --> E[transRes 映射资源]\nE --> F{确定构建模块}\n\nF --> G[adapter: wonder等]\nF --> H[mod: wonder.data.pc, skin.pc]\nF --> I[res: 资源文件]\n\nI --> J[runRes: 构建资源文件]\nJ --> K[复制资源文件到 dist]\nK --> L[生成带hash文件名<br/>CRC32 + 时间戳]\nL --> M[记录资源URL到 outUrl]\n\nH --> N[runWebpack: Webpack编译]\nN --> O[配置 entry 入口]\nO --> P[Webpack 打包处理]\n\nP --> Q[处理 Mars<br/>通过 @mars alias]\nP --> R[处理 Kiwi<br/>npm依赖 @iqiyi-pcw-player/kiwi]\nP --> S[代码分割 vendors]\nP --> T[动态导入代码分割]\n\nQ --> U[Mars 打包进主bundle]\nR --> V[Kiwi 打包到 vendors.kiwi.mat.js]\nT --> W[mmc.authkey.js<br/>pako_deflate.js]\n\nP --> X[\"生成模块文件<br/>wonder.data.pc.[hash].js<br/>skin.pc.[hash].js\"]\n\nX --> Y[生成适配器配置]\nY --> Z[写入 online.js<br/>模块URL配置]\nY --> AA[写入 gray.js<br/>灰度配置]\n\nZ --> AB[runNext: Rollup编译适配器]\nAA --> AB\n\nAB --> AC[buildAll: Rollup打包]\nAC --> AD[读取 qiyiLoader.js 入口]\nAD --> AE[Rollup 打包处理]\nAE --> AF[UglifyJS 压缩]\nAF --> AG[\"生成 pcweb.wonder.[hash].js\"]\n\nAG --> AH[合并文件阶段]\nAH --> AI{是否需要合并?}\nAI -->|是| AJ[合并 wonder.data.pc.js<br/>到 pcweb.wonder.js]\nAI -->|否| AK[跳过合并]\n\nAJ --> AL[生成 pcweb.wonder.js<br/>不带hash版本]\nAK --> AL\n\nAL --> AM[生成 online.json<br/>生产环境配置]\n\nAM --> AN[构建完成]\n\nstyle A fill:#e1f5ff\nstyle AN fill:#c8e6c9\nstyle P fill:#fff9c4\nstyle AC fill:#fff9c4\nstyle W fill:#ffccbc\nstyle V fill:#ffccbc\nstyle U fill:#ffccbc\n```"
+  },
+  {
+    "chunk_id": "cfd823e3-e6a1-42b8-80db-7cc3aef809bd",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 开发流程\n### 播控组件开发\n\n播控相关组件统一存放在`packages/pcw-main-player/src/unit/ui`目录下，需要用到的播控组件在`packages/pcw-main-player/src/player/view/skin.pc.js`文件下导入并注册，以下以清晰度组件为例\n```mermaid\nflowchart TD\nA[PcView 初始化] --> B[init 方法调用]\nB --> C[getCss 加载样式]\nB --> D[initHtml 初始化HTML结构]\nB --> E[initPlugins 初始化插件]\nB --> F[bindEvent 绑定事件]\n\nC --> C1{setting.def 配置中是否需要加载清晰度组件}\nC1 -->|是| C2[Definition.css 添加到样式数组]\nC1 -->|否| C3[跳过CSS加载]\n\nD --> D1[构建 Control.html（Control也是一个组件，是用于加载进度条下方的那些按钮）]\nD1 --> D2{setting.def 为真?}\nD2 -->|是| D3[Definition.html 插入到控制条右侧]\nD2 -->|否| D4[跳过HTML插入]\nD3 --> D5[loadHtml 将HTML注入到DOM]\n\nE --> E1[获取 bottomWrapper 和 right 容器]\nE1 --> E2{setting.def 为真?}\nE2 -->|是| E3[\"new Definition(base, right)\"]\nE2 -->|否| E4[跳过插件创建]\n\nE3 --> E5[Definition 构造函数执行]\nE5 --> E6[super 调用 BaseUI 构造函数]\nE6 --> E7[初始化 name='definition']\nE7 --> E8[查找DOM节点 data-player-hook='definition']\nE8 --> E9[创建 $definitionBtn 引用]\nE9 --> E10[创建 Definitions 面板实例]\nE10 --> E11[调用 init 方法]\n\nE11 --> E12[_initBtn 初始化按钮]\nE11 --> E13[_initEvt 初始化事件]\n\nE3 --> E25[addPlugin 注册插件]\nE25 --> E26[\"base.addPlugin(plugin)\"]\nE26 --> E27[\"base.plugins['definition'] = plugin实例\"]\n\nE27 --> E28[插件注册完成]\nE28 --> E29[\"base.emit(NTF_PLG_ALL_LOADED)\"]\nE29 --> E30[\"base.callJsDoSomething('skinPluginsLoaded')\"]\n\nstyle A fill:#e1f5ff\nstyle E5 fill:#fff4e1\nstyle E11 fill:#e8f5e9\nstyle E27 fill:#f3e5f5\nstyle E29 fill:#e8f5e9\nstyle E30 fill:#e8f5e9\n```"
+  },
+  {
+    "chunk_id": "98054533-20a9-42a0-89ff-e3ef9b1db8bd",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## 开发流程\n### 与基础代码通信\n\n在View实例（skin.base.js）上存在`callJsDoSomething`函数，用于播放器与web通信，View从Dispatcher继承，callJsDoSomething内部是使用了Dispatcher类的emit函数，emit触发了`setJsDoSomething`事件\n在web侧使用`player.on('setJsDoSomething')`监听事件，player是H5Adapter的实例，H5Adapter也是继承自Dispatcher，player.on函数正是使用了Dispatcher的on函数。Dispatcher内部实现了一套事件机制，包含监听on与触发emit  \n#### 继承关系图  \n```mermaid\nclassDiagram\nclass Dispatcher {\n+on(type, handler)\n+emit(type, data)\n}\n\nclass View {\n+callJsDoSomething()\n}\n\nclass H5Adapter {\n}\n\nclass Player {\n+on(type, handler)\n}\n\nDispatcher <|-- View : 继承\nDispatcher <|-- H5Adapter : 继承\nH5Adapter ..> Player : 实例化\n\nnote for View \"View.callJsDoSomething() -> 内部调用Dispatcher.emit('setJsDoSomething')\"\nnote for Player \"player.on('setJsDoSomething') -> 内部调用Dispatcher.on('setJsDoSomething') 监听事件\"\n```  \n#### 事件流向图  \n```mermaid\nflowchart LR\nsubgraph \"播放器内部\"\nA[View实例] -->|callJsDoSomething| B[Dispatcher.emit]\nB -->|触发| C[setJsDoSomething事件]\nend\n\nsubgraph \"Dispatcher事件机制\"\nC -->|事件广播| D[Dispatcher事件系统]\nend\n\nsubgraph \"Web侧\"\nD -->|事件传递| E[player实例]\nE -->|player.on监听| F[Web回调函数]\nend\n\nstyle A fill:#e1ffe1\nstyle C fill:#fff4e1\nstyle E fill:#e1f5ff\nstyle F fill:#c8e6c9\n```"
+  },
+  {
+    "chunk_id": "1e070d6b-ee2d-4d46-8266-86097aab5aab",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## window上的挂载对象\n### QiyiPlayerLoader\n\n* **源代码地址**：`packages/pcw-main-player/src/player/adapter/wonder/qiyiLoader.js`\n* **作用**：播放器的主加载器，负责管理播放器包和视图的加载\n* **主要字段**：\n```javascript\n{\n// 核心属性\nPackage: null,                  // 当前注册的 Package 类（如 wonder.data.pc）\npackLoader: PackLoader,         // 包加载器，负责加载播放器包\nmanager: PlayerManager,         // 播放器管理器，管理所有播放器实例\nrenderd: false,                 // CSS 是否已渲染\nisSyncing: true,                // 是否在同步执行中\n\n// 主要方法\nready((manager) => {}): void,   // 播放器准备就绪回调\nsetPackage(Package): void,      // 注册 Package 类\naddView(view, skinType): void,  // 注册视图类（如 PcView）\nloadSkin(param): void,          // 加载皮肤\nloadAd(cb): void,               // 加载广告\nlogger(): PlayerLogger          // 获取日志工具\n}\n```"
+  },
+  {
+    "chunk_id": "a6f4c2a4-2d55-4a97-9866-31479865de6d",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## window上的挂载对象\n### player\n\n由`manager.createPlayer(param)`创建\n* **类型**：H5Adapter 实例（继承自 Dispatcher）\n* **作用**：单个播放器实例，提供播放控制API\n* **主要字段**：\n```javascript\n{\n// 核心属性\ntype: string,                        // 播放器类型（PlayerType_Html5VOD）\nskinType: string,                    // 皮肤类型（'pc', 'mobile', 'mini'）\npackage: Package,                    // 重要！Package 实例（wonder.data.pc）\ndisabled: false,                     // 是否已禁用\nhasview: false,                      // 是否已初始化皮肤\nisSmallWindow: null,                 // 是否小窗模式\n\n// 播放控制方法\nload(param): void,                   // 加载视频\nplay(options): void,                 // 播放\npause(): void,                       // 暂停\nresume(): void,                      // 恢复播放\nreplay(): void,                      // 重播\nseek(num): void,                     // 跳转到指定时间\nstop(): void,                        // 停止\n\n// 视频列表方法\naddVideoList(param): void,           // 添加播放列表\nremoveVideoList(param): void,        // 移除播放列表\nswitchVideo(param): void,            // 切换视频\nswitchNextVideo(): void,             // 下一集\nswitchPreVideo(): void,              // 上一集\n\n// 设置方法\nsetMuted(param): void,               // 设置静音\nsetPlayPingbackInfo(param): void,    // 设置播放统计信息\nchangePlayRate(rate): void,          // 改变播放速度\nchangeDefinition(val): void,         // 改变清晰度\nnotifyMetaPanel(param): void,        // 信息面板内容或状态更新\nbackSendPingback(): void,            // 关闭播放器发送pingback\nskipPrelude(skip): void,             // 跳过片头片尾\n\n// 状态查询方法\nisPaused(): boolean,                 // 是否暂停\ngetMuted(): boolean,                 // 是否静音\ngetPlayInfo(callback): void,         // 获取播放信息\ngetVideoInfo(callback): void,        // 获取视频信息\ngetCurrentVD(): number,              // 获取清晰度\n\n// 事件方法\non(type, handler): void,             // 重要！监听事件\noff(type, handler): void,            // 取消监听\nfire({type, data}): void,            // 触发事件\nremoveAllListeners(type): void       // 移除全部监听事件\n\n// 其他方法\nrefresh(): void,                     // 重新刷新播放器\ndestroy(): void,                     // 销毁播放器\nstopRecordEvents(): void             // 停止记录事件\n}\n```\n#### Package（wonder.data.pc）中的核心字段\n* **adapter（适配器）**：是H5Adapter 实例，对外接口层，负责与外部（页面 JS）通信，比如提供播放器 API（play(), pause(), load() 等）、向页面发送事件（fire()）\n* **engine（引擎）**：是DataEngine 实例，播放器核心逻辑层，负责播放控制、视频加载、状态管理\n* **view（视图）**：View 实例（来自 skin.base.js），UI 视图层，负责界面渲染和用户交互  \n##### 用户操作 → 页面调用 → Package → Engine\n```mermaid\nsequenceDiagram\nparticipant User as 用户\nparticipant Page as 页面 JS\nparticipant Adapter as H5Adapter\nparticipant Package as Package\nparticipant Engine as DataEngine\n\nUser->>Page: 点击播放按钮\nPage->>Adapter: player.play()\nAdapter->>Package: package.play(isManualAction)\nPackage->>Engine: engine.play(isManualAction)\nEngine->>Engine: 执行播放逻辑\nEngine-->>Package: 播放状态更新\nPackage-->>Adapter: 状态变化事件\nAdapter-->>Page: fire('playerStateChange')\nPage-->>User: 更新 UI 显示\n```  \n##### Engine 状态变化 → Package → Adapter → 页面  \n```mermaid\nsequenceDiagram\nparticipant Engine as DataEngine\nparticipant Package as Package\nparticipant Adapter as H5Adapter\nparticipant Page as 页面 JS\n\nEngine->>Engine: 播放状态改变\nEngine->>Package: emit('NTF_StatusChanged', event)\nPackage->>Package: initEvent() 监听处理\nPackage->>Package: _statusChange(type, data)\nPackage->>Adapter: adapter.fire('QYPLAYER_STATE_CHANGE')\nAdapter->>Page: 广播事件到页面\nPage->>Page: 监听器处理事件\nPage->>Page: 更新页面状态/UI\n```  \n##### Package → View → UI 更新  \n```mermaid\nsequenceDiagram\nparticipant Package as Package\nparticipant View as View (skin.base)\nparticipant PcView as PcView\nparticipant MetaPanel as MetaPanel 组件\nparticipant DOM as DOM 界面\n\nPackage->>View: view.notifyMetaPanel(params)\nView->>PcView: checkSubView('notifyMetaPanel', params)\nPcView->>PcView: base.emit('NTF_METAPANEL_DATA', params)\nPcView->>MetaPanel: 监听事件触发\nMetaPanel->>MetaPanel: 处理 content, collapsed, userAction\nMetaPanel->>DOM: $plugin.append(content)\nMetaPanel->>MetaPanel: _checkStatus()\nMetaPanel->>DOM: 更新显示/隐藏状态\nDOM-->>User: UI 界面更新\n```  \n##### 完整架构关系图  \n```mermaid\ngraph TB\nsubgraph \"外部层\"\nUser[用户]\nPage[页面 JS]\nend\n\nsubgraph \"适配器层\"\nAdapter[H5Adapter<br/>对外接口]\nend\n\nsubgraph \"协调层\"\nPackage[Package<br/>中间协调]\nend\n\nsubgraph \"核心层\"\nEngine[DataEngine<br/>播放引擎]\nView[View<br/>视图层]\nPcView[PcView<br/>PC视图]\nend\n\nsubgraph \"UI层\"\nOtherUI[其他UI组件]\nend\n\nUser -->|操作| Page\nPage -->|API调用| Adapter\nAdapter -->|转发| Package\nPackage -->|控制| Engine\nPackage -->|更新| View\nView -->|管理| PcView\nPcView -->|渲染| OtherUI\n\nEngine -->|状态事件| Package\nPackage -->|事件转发| Adapter\nAdapter -->|广播事件| Page\nPage -->|更新UI| User\n\nstyle Adapter fill:#e1f5ff\nstyle Package fill:#fff4e1\nstyle Engine fill:#ffe1f5\nstyle View fill:#e1ffe1\n```  \n##### 事件流向图  \n```mermaid\nflowchart LR\nsubgraph \"Engine 事件流\"\ndirection LR\nE1[Engine 状态变化] --> E2[emit NTF_StatusChanged]\nE2 --> E3[Package 监听]\nE3 --> E4[Package 处理]\nE4 --> E5[Adapter.fire]\nE5 --> E6[页面接收]\nend\n\nsubgraph \"View 事件流\"\ndirection LR\nV1[Package 调用] --> V2[View 方法]\nV2 --> V3[emit ViewType]\nV3 --> V4[UI 组件监听]\nV4 --> V5[更新 DOM]\nend\n\nsubgraph \"用户操作流\"\ndirection LR\nU1[用户操作] --> U2[页面调用]\nU2 --> U3[Adapter API]\nU3 --> U4[Package 转发]\nU4 --> U5[Engine 执行]\nend\n\nstyle E1 fill:#ffe1f5\nstyle V1 fill:#e1ffe1\nstyle U1 fill:#e1f5ff\n```"
+  },
+  {
+    "chunk_id": "242b3a9d-7b06-4cee-9e7e-fa052cf8bda7",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## window上的挂载对象\n### sdkPackManager\n\n`sdkPackManager` 是一个**动态模块加载器**，用于按需加载和管理 SDK 包。基础代码中通过`https://static.iqiyi.com/js/sdkpack/sdkpackmanager.js`引入  \n#### `require(name, callback, options)` - 加载 SDK  \n```javascript\nsdkPackManager.require(\n'barrage',          // SDK 名称\nfunction(barrage) {\n// 加载完成回调\n// barrage 是加载的 SDK 实例\n},\n{\nbusiness: '1',  // 业务编码\nconfig: {},     // 配置对象\nuri: '',        // 自定义加载地址（可选）\nversion: ''     // 版本号（可选）\n}\n);\n```"
+  },
+  {
+    "chunk_id": "cd056ad4-da21-443d-bb5a-7d075db5daf8",
+    "source_file": "data/frontend/project-player.md",
+    "content": "# 爱奇艺播放器\n## window上的挂载对象\n### barrageServer\n\n`barrageServer` 是**弹幕服务端 SDK**，负责与播放器引擎交互，提供弹幕数据的获取和管理功能。主要用于 H5 播放器场景。\n严格来说barrageServer不是挂载在window对象上的，是通过sdkPackManager加载的，通过`window.sdkPackManager.barrageServer`进行访问  \n```javascript\n{\n// ========== DOM 元素引用（jQuery 对象）==========\n$barrage:      jQuery,  // 弹幕容器 jQuery 对象，包含弹幕项元素（div.iqp-barrage-item）\n$control:      jQuery,  // 控制元素 jQuery 对象，包含控制相关的 DOM 元素（div.reportWrap_bfq）\n$plugin:       jQuery,  // 插件容器 jQuery 对象，包含弹幕插件相关的 DOM 元素\n$stage:        jQuery,  // 舞台容器 jQuery 对象，弹幕渲染的舞台区域\nplgContainer:  jQuery,  // 播放器插件容器 jQuery 对象\nwrapper:       jQuery,  // 播放器视频层包装器 jQuery 对象（iqpdiv.iqp-player-videolayer）\n\n// ========== 弹幕相关对象 ==========\nbarrageClient:            object,  // 弹幕客户端实例（BarrageAction），初始化时通过 options.barrageClient 传入，用于与弹幕 UI 层（barrage.js）通信\nbarrageControl:           object,  // 弹幕控制对象，管理弹幕的显示/隐藏、位置控制、样式控制等\nbarrageCore:              object,  // 弹幕核心对象，负责弹幕的核心渲染和处理逻辑\nbarrageMask:              object,  // 弹幕遮罩对象，负责弹幕遮罩的显示和管理\nconnectWithBarrageClient: object,  // 连接弹幕客户端的对象，负责与弹幕客户端的通信和协调\n\n// ========== 播放器相关对象 ==========\nplayer:     object,  // 播放器实例（H5Adapter），完整的播放器对象，包含所有播放器方法和属性\nplayerUnit: object,  // 播放器功能单元对象，封装播放器相关功能\n\n// ========== 数据对象 ==========\ndataList: {\ntvid: number,              // 视频 ID\nalbumId: number,           // 专辑 ID\ncid: number,               // 频道 ID\nplayStatus: string,        // 播放状态（'play', 'pause' 等）\ncurrentPackageIndex: number, // 当前包索引\nqpid: string,              // 视频 qpid（可选）\naid: string,               // 专辑 ID（字符串形式，可选）\n// ... 其他播放器相关数据\n},\n\ninit(options): void\n}\n```"
+  },
+  {
+    "chunk_id": "ca23d020-0d48-41a0-8c0e-14a88af12006",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 核心开发工具\n### Node 版本管理\n\n#### 1、安装nvm\n* windows\n[点这里](https://github.com/coreybutler/nvm-windows/releases)安装下载nvm\n* macOS用户使用brew下载，可能需要替换brew源\n```bash\n# 安装 nvm\nbrew install nvm\n# NVM 配置\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"/opt/homebrew/opt/nvm/nvm.sh\" ] && \\. \"/opt/homebrew/opt/nvm/nvm.sh\"\n[ -s \"/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm\" ] && \\. \"/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm\"\n# 如果你使用 zsh（macOS Catalina 及之后版本的默认 shell）\nsource ~/.zshrc\n# 如果你使用 bash\nsource ~/.bash_profile\n```\n使用`nvm -v`验证nvm是否安装成功\n#### 2、安装node\n```bash\n# 安装 Node.js 版本\nnvm install 14\nnvm use 14\nnvm alias default 14\n\n# 验证安装\nnode --version  # 应该显示 v14.x\nnpm --version\n```"
+  },
+  {
+    "chunk_id": "95e474a2-465c-4d50-adbf-77d143edffb9",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 核心开发工具\n### Git 安装与配置\n\n#### 1、安装Git\n* windows\n下载安装Git[点这里](https://git-scm.cn/downloads/win)\n* macOS\n```bash\n# macOS 安装 Git\nbrew install git\n```\n#### 2、全局配置\n```bash\ngit config --global user.name \"你的姓名\"\ngit config --global user.email \"你的公司邮箱\"\n```"
+  },
+  {
+    "chunk_id": "ed7b0ffc-4bf9-4ae8-8af9-e632ccdd62b5",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 核心开发工具\n### Python 安装\n\n#### TODO: 待补充"
+  },
+  {
+    "chunk_id": "2d3d6b2d-7447-487a-9c3b-4b2ae1b87db1",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 代码编辑器配置\n### VS Code\n\n#### 1、下载安装\n[点这里](https://code.visualstudio.com/)\n#### 2、安装必备扩展\n```bash\n# 打开 VS Code 按 Ctrl+P（macOS Command+Shift+P），输入以下命令\next install vue.volar\next install dbaeumer.vscode-eslint\next install esbenp.prettier-vscode\next install formulahendry.auto-close-tag\next install formulahendry.auto-rename-tag\next install christian-kohler.path-intellisense\next install donjayamanne.githistory\n```\n#### 3、团队配置文件\n```bash\n# 将以下配置添加到用户设置\nTODO: 后续添加，配合基线改造插件处理\n```"
+  },
+  {
+    "chunk_id": "358f72f6-b653-4490-bcbf-5d9b35046ab2",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 代码编辑器配置\n### Cursor\n\n#### 1、下载安装\n[点这里](https://cursor.com/cn/download)\n#### 2、导入配置\n第一次打开时选择从vscode导入配置"
+  },
+  {
+    "chunk_id": "84024aaa-7be3-4c40-a789-8273de080e42",
+    "source_file": "data/frontend/prepare-environment-tools.md",
+    "content": "# 环境与工具\n## 浏览器开发环境\n### Chrome\n\n#### 1、下载安装\n[点这里](https://www.google.com/intl/zh-CN/chrome/)\n#### 2、推荐插件\n* Vue.js devtools"
+  },
+  {
+    "chunk_id": "53022f1b-1782-4706-8d2d-8ebafaa39670",
+    "source_file": "data/frontend/other-history-files.md",
+    "content": "# 历史文档\n\n* [车机 Android app 性能监控（老文档）](https://f1hw6tab9q.feishu.cn/wiki/CeVSwKV7qi0fstkhBfZc9ac7nYg)\n* [车机APP性能监控地址账密](https://f1hw6tab9q.feishu.cn/wiki/QENLw1EHMinNu1kUVXOc75gvnKL)\n* [斑马H5车机命令笔记（上乘/智己）](https://f1hw6tab9q.feishu.cn/wiki/EFL4w2mayi0Y8KkPfHqc8uqfnye)\n* [斑马H5接口定义文档](https://f1hw6tab9q.feishu.cn/wiki/JKGowlQHhiA188kA7OKcmbgdnMf)\n* [爱奇艺车联网后台API接口文档](https://f1hw6tab9q.feishu.cn/wiki/wikcnPMP9LUuKxZms5U9pLm0uMc)\n* [爱奇艺h5项目分支差异](https://f1hw6tab9q.feishu.cn/wiki/WeDlwagJXig29RkkQSvccQ22nHl)"
+  },
+  {
+    "chunk_id": "f007993b-99e5-464a-a4bf-280a23661b53",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 项目概览\n### 项目简介\n\n车机上的爱奇艺软件有两种形式，一种是通过apk包安装的Android版本爱奇艺，另一种是需要嵌入车企自己的app的爱奇艺，本项目就是服务于该场景的"
+  },
+  {
+    "chunk_id": "f4a0b910-3f75-4d33-9672-6957e06c741e",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 项目概览\n### 项目仓库\n\n* **仓库地址**：[点这里](http://172.28.10.85/iqiyi/iqiyi-vehicle)\n* **仓库权限申请**：OA - 代码库管理 - 代码权限，仓库地址填写：http://172.28.10.85/iqiyi/iqiyi-vehicle ；仓库初始申请后可能存在无法登录git的情况，联系流程最后审批人（流程管理部）处理账号问题"
+  },
+  {
+    "chunk_id": "41136292-0a69-4aa9-81f2-e0c41c850489",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 项目概览\n### 功能架构\n\n```mermaid\n---\ntitle: 爱奇艺H5模块架构\n---\nblock-beta\ncolumns 2\nblock:group1\nA1[\"频道\"]\nA2[\"搜索\"]\nA3[\"筛选\"]\nA4[\"视频播放\"]\nA5[\"个人中心\"]\nend\nblock:group2\nB1[\"播放器\"]\nB2[\"视频解码\"]\nB3[\"广告\"]\nend\nblock:group3:2\nC1[\"JS桥接层\"]\nend\nblock:group4:2\nD1[\"车机硬件接口\"]\nend\n```"
+  },
+  {
+    "chunk_id": "5feec3bf-e010-4006-8fac-79b16e5b3809",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 项目概览\n### 技术栈全景\n\n* 核心库清单\n* vue@3.2.13\n* vue-router@4.0.3\n* vuex@4.0.0\n* vant@4.1.1\n* 工具链\n* axios\n* swiper\n* lodash\n* vconsole"
+  },
+  {
+    "chunk_id": "bb87466e-2291-4d40-ae28-ced379f85cf6",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 开发环境配置\n### 启动脚本\n\n:::code-group\n```bash [windows]\ngit clone <repo>\n# 使用 node 14\ncd project && npm run install\n# windows 启动\nnpm run serve\n```\n```bash [macOS]\ngit clone <repo>\n# 使用 node 14\ncd project && npm run install\n# macOS 启动，否则无法直接打开443端口\nsudo npm run serve\n```\n:::"
+  },
+  {
+    "chunk_id": "d1c1e5a8-17b1-4957-9c72-d87db4560ecc",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 开发环境配置\n### 修改本地host\n\n必须使用iqiyi.com主域名，以及443端口，否则部分功能无法使用，如非443时个人账号相关接口无法使用\n```bash\n# 添加本地 dns 解析\n127.0.0.1 login.iqiyi.com\n```"
+  },
+  {
+    "chunk_id": "b27db8d7-36bf-482b-b1f3-5a777b32dbcb",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 环境分支"
+  },
+  {
+    "chunk_id": "6116ed8a-394e-47be-b52c-1052b2583da4",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "\n\n测试地址包含0401，而生产而没有\n|  车企   | 环境 | 地址 | 分支 |\n| ---- | ---- | ---- | ---- |\n| 特斯拉 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=tesla](https://www.iqiyi.com/iv0401#/?ver=tesla) |基础代码：iqiyi-fronend-tesla|\n| 特斯拉 | 正式 | [https://www.iqiyi.com/iv#/?ver=tesla](https://www.iqiyi.com/iv#/?ver=tesla) |基础代码：iqiyi-fronend-tesla-prod|\n| 斑马智己 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=bm_zj](https://www.iqiyi.com/iv0401#/?ver=bm_zj) |基础代码：iqiyi-frontend|\n| 斑马智己 | 正式 | [https://www.iqiyi.com/iv#/?ver=bm_zj](https://www.iqiyi.com/iv#/?ver=bm_zj) |基础代码：iqiyi-frontend-prod|\n| 斑马上乘 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=bm_sc](https://www.iqiyi.com/iv0401#/?ver=bm_sc) |基础代码：iqiyi-frontend|\n| 斑马上乘 | 正式 | [https://www.iqiyi.com/iv#/?ver=bm_sc](https://www.iqiyi.com/iv#/?ver=bm_sc) |基础代码：iqiyi-frontend-prod|\n| 现代LG | 测试 | [https://www.iqiyi.com/iv0401#/?ver=lg_xd](https://www.iqiyi.com/iv0401#/?ver=lg_xd) |基础代码：iqiyi-frontend-lg|\n| 现代LG | 正式 | [https://www.iqiyi.com/iv#/?ver=lg_xd](https://www.iqiyi.com/iv#/?ver=lg_xd) |基础代码：iqiyi-frontend-lg|"
+  },
+  {
+    "chunk_id": "02837385-a6b9-4469-837a-0f113b1d238d",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 代码结构\n\n```\niqiyi-vehicle/\n├── babel.config.js              # Babel配置文件\n├── package.json                  # 项目依赖配置\n├── vue.config.js                 # Vue CLI配置文件\n├── uploadBackup.js               # 打包后自动上传脚本\n├── node_modules/                 # 第三方依赖包\n├── public/                       # 静态资源目录\n└── src/                          # 源代码目录\n├── main.js                   # 应用入口文件\n├── App.vue                   # 根组件\n├── components.js             # 全局组件注册\n├── api/                      # API接口目录\n├── assets/                   # 静态资源目录\n├── components/                # 通用组件目录\n├── config/                    # 配置文件目录\n├── enums/                     # 枚举定义目录\n├── interface/                 # 斑马注入接口\n├── lib/                       # 工具库目录\n├── router/                    # 路由配置目录\n├── store/                     # Vuex状态管理目录\n├── styles/                    # 样式文件目录\n├── utils/                     # 工具函数目录\n└── views/                     # 页面视图目录\n├── errorPage/             # 错误页面\n├── filterPage/            # 筛选页面\n├── frontPage/             # 首页\n├── Main.vue               # 主视图组件\n├── personalPage/          # 个人中心页面\n├── searchPage/            # 搜索页面\n└── videoPage/             # 视频播放页面\n```"
+  },
+  {
+    "chunk_id": "8c682631-b7dd-4f86-a1e3-21bd567d06e2",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 部署与协作流程\n### 分支策略\n\n分支策略参考[这里](/frontend/prepare-standard-process#阶段二开发与提交)"
+  },
+  {
+    "chunk_id": "912d0b1b-a635-4117-92d1-3de61a521886",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 部署与协作流程\n### 代码检查"
+  },
+  {
+    "chunk_id": "deaa463f-9d41-48f8-a0ba-5b7f07d322d7",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "\n\n#### 推荐编辑器\n**项目建议使用 VSCode 或 Cursor 进行开发**，因为项目已配置 `.vscode/settings.json` 文件，提供了以下自动化功能：\n- 保存时自动格式化代码\n- 保存时自动修复 ESLint 和 Stylelint 错误\n- 统一的代码格式化规则\n#### 格式化插件说明\n项目配置了以下格式化工具，确保代码风格统一：\n##### 1. 代码格式化插件\n**Prettier** - 代码格式化工具\n- 配置文件：`.prettierrc.js`\n- 格式化范围：JavaScript、TypeScript、Vue、JSON、CSS、SCSS、HTML 等文件\n- 主要规则：\n- 单引号\n- 2 个空格缩进\n- 行尾分号\n- 最大行宽 120 字符\n- 使用 LF 换行符  \n**ESLint** - JavaScript/Vue 代码质量检查工具\n- 配置文件：`.eslintrc.js`\n- 检查范围：JavaScript、Vue 文件\n- 功能：\n- 代码质量检查\n- 与 Prettier 集成，避免格式化冲突\n- 自动修复部分问题  \n##### 2. 样式格式化插件\n**Stylelint** - CSS/Less/SCSS 样式格式化工具\n- 配置文件：`.stylelintrc.js`\n- 格式化范围：CSS、Less、SCSS、Vue 文件中的样式\n- 功能：\n- 样式代码规范检查\n- 支持 Less 语法\n- 支持 Vue 单文件组件中的样式  \n##### 3. 提交格式化插件  \n**Commitlint** - Git 提交信息规范工具\n- 配置文件：`.commitlintrc.js`\n- 配合工具：Husky（Git hooks 管理工具）\n- 提交信息格式规范（遵循 Conventional Commits）：\n```\n<type>(<scope>): <subject>\n```\n- 允许的提交类型：\n- `feat`: 新功能\n- `fix`: 修复 bug\n- `docs`: 文档变更\n- `style`: 代码格式（不影响代码运行的变动）\n- `refactor`: 重构\n- `perf`: 性能优化\n- `test`: 增加测试\n- `chore`: 构建过程或辅助工具的变动\n- `revert`: 回退\n- `build`: 打包构建相关\n- `ci`: 持续集成修改  \n**提交示例**：\n```bash\nfeat: 添加用户登录功能\nfix(user): 修复登录页面样式问题\ndocs: 更新 README 文档\n```  \n#### 格式化命令使用\n运行以下命令可以一次性格式化所有代码、样式并修复 ESLint 错误：  \n```bash\nnpm run format\n# 或\nyarn format\n```  \n该命令会执行：\n1. Prettier 格式化所有代码文件\n2. ESLint 自动修复 JavaScript/Vue 代码问题\n3. Stylelint 自动修复样式文件问题  \n如果需要单独运行某个格式化工具：  \n```bash\n# 仅运行 Prettier 格式化\nnpx prettier --write \"**/*.{js,jsx,ts,tsx,vue,json,css,scss,html}\"\n\n# 仅运行 ESLint 修复\nnpx eslint --fix --ext .js,.jsx,.ts,.tsx,.vue \"src\"\n\n# 仅运行 Stylelint 修复\nnpx stylelint \"src/**/*.{css,less,scss,vue}\" --fix\n```"
+  },
+  {
+    "chunk_id": "588b71bf-4eec-4e07-a94b-45f2a4ff4fd1",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 部署与协作流程\n### 发布流程\n\n发布需通知爱奇艺侧发布，具体发布流程参考[这里](/frontend/prepare-standard-process#阶段三测试与发布)\n一般对于同一个车企，会准备两个构建命令，分别用于构建测试环境与生产环境，使用环境变量VUE_APP_FLAG区分，不同环境的构建产物的目录结构outputDir、资源路径前缀publicPath、以及构建产物（vue.config.js配置）都有差异化处理  \n#### 构建链路拆解\n```mermaid\nflowchart TD\nA[package.json配置环境变量] --> B[根据环境生成outputDir]\nB --> C[构建中将输出目录压缩成zip包]\nC --> D[调用uploadBackup.js文件上传zip包]\nE[用户开始访问页面] --> F[加载服务器资源]\nF --> G[根html与versionIsolation.js是存放在服务器的，不会被根据上传的zip中的文件覆盖]\nG --> H[versionIsolation.js根据ver参数在html中加载了其他资源文件，包括业务代码与播放器核心代码]\n```  \n#### 部署架构\n```plantuml\n@startuml\ntitle 多分支前端部署流程\n\npackage \"开发环境\" {\n[开发者] --> [Git分支A]\n[开发者] --> [Git分支B]\n}\n\npackage \"构建环境\" {\n[Git分支A] --> [构建命令A]\n[Git分支B] --> [构建命令B]\n\n[构建命令A] --> [上传到/branchA目录]\n[构建命令B] --> [上传到/branchB目录]\n}\n\npackage \"云\" {\ndatabase \"/static\" {\nfolder \"branchA\" as fa\nfolder \"branchB\" as fb\n}\n}\n\npackage \"用户访问\" {\n[用户请求 ?ver=A]\n[解析ver参数] --> [动态加载资源、播放器js]\n}\n\npackage \"服务器\" {\n[固定 index.html] --> [versionIsolation.js]\n}\n\n[上传到/branchA目录] --> fa\n[上传到/branchB目录] --> fb\n[动态加载资源、播放器js] --> fa\n[用户访问] --> [服务器]\n\nnote left of [versionIsolation.js]\nJavaScript逻辑:\n1. 获取URL中的ver参数\n2. 动态创建script标签\n3. 添加到document\nend note\n\nnote right of [构建环境]\n构建逻辑:\n1. 构建命令中变量（环境、车企）\n2. 上传对应路径的存储桶中\nend note\n\n@enduml\n```  \n#### 项目各类文件发布的方式\n```mermaid\ngraph TD\nsubgraph \"index.html\"\ndirection TB\no1[html文件更新方式]:::note -.-> Z[html文件是服务器写死的,和是否打包无关]\nZ --> Z1[修改html的文件，只能手动替换]\nend\n\nsubgraph public\ndirection TB\no2[针对public中的文件的上传是不和渠道（ver）绑定的\n因此此流程执行后上传的文件是整个测试环境或者正式环境共享的\n也就是只要构建一次即可]:::note -.-> A[运行构建命令]\nA --> B{确定环境}\nB --> |测试 npm run build:test_iv0401| BA1[生成iv0401.zip]\nBA1 --> BA2[执行uploadBackup.js上传]\nBA2 --> BA3[上传iv0401.zip]\nBA3 --> BA4[生成可用文件地址，只有环境字段没有渠道字段 //static-d.iqiyi.com/iv0401/versionIsolation.js //static-d.iqiyi.com/iv0401/loadSyncScript.js]\n\nB --> |正式 npm run build:iv| BB1[生成iv.zip]\nBB1 --> BB2[执行uploadBackup.js上传]\nBB2 --> BB3[上传iv.zip]\nBB3 --> BB4[生成可用文件地址，只有环境字段没有渠道字段 //static-d.iqiyi.com/iv/versionIsolation.js //static-d.iqiyi.com/iv/loadSyncScript.js]\nend\n\nsubgraph source code\ndirection TB\no3[业务场景打包和public的打包区别在于资源的publicPath中是否包含渠道（ver）字段]:::note -.-> H[运行构建命令]\nH --> I{确定环境}\nI --> |测试 npm run build:test_tesla| IH1[生成iv0401.zip]\nIH1 --> IH2[执行uploadBackup.js上传]\nIH2 --> IH3[上传iv0401.zip]\nIH3 --> IH4[生成可用文件地址中包含渠道字段 //static-d.iqiyi.com/iv0401/tesla/]\n\nI --> |正式 npm run build:tesla| II1[生成iv.zip]\nII1 --> II2[执行uploadBackup.js上传]\nII2 --> II3[上传iv.zip]\nII3 --> II4[生成可用文件地址中包含环境+渠道字段 //static-d.iqiyi.com/iv/tesla/]\nend\n\nclassDef note fill:#f5f5f5,stroke:#9e9e9e,stroke-width:1px,rx:5,ry:5\n```"
+  },
+  {
+    "chunk_id": "480b2268-41f8-4c75-aade-83d85d35194c",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 隐私协议更新流程\n\n参考文档：[点这里](https://xiangsutech.feishu.cn/wiki/G1oJwbv8PiBnM3kNWu3c5OUen4e)"
+  },
+  {
+    "chunk_id": "a7d96638-dc3e-4447-a15e-bc80cf48ca6f",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 隐私协议更新流程\n### 下载oss browser2\n\n[https://help.aliyun.com/zh/oss/developer-reference/installing-the-ossbrowser-2-0?spm=a2c4g.11186623.help-menu-31815.d_1_2_3_0.3db55387N6bNBV](https://help.aliyun.com/zh/oss/developer-reference/installing-the-ossbrowser-2-0?spm=a2c4g.11186623.help-menu-31815.d_1_2_3_0.3db55387N6bNBV)"
+  },
+  {
+    "chunk_id": "edd81fc1-3fdd-49fd-84ad-4498f4e25fd4",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 隐私协议更新流程\n### 登录信息\n\n使用参考文档中的aksk登录\n⚠️注意：OSS存储桶地址不要使用参考文档中的，使用**bj-static-vehicle/**"
+  },
+  {
+    "chunk_id": "99d10c70-9a89-4fde-a8c7-6dd4f0354227",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 隐私协议更新流程\n### 协议更新地址\n\n存储地址：/mall/protocol/"
+  },
+  {
+    "chunk_id": "b27bbb39-96c1-4c7e-a1a7-cd93b5b71f36",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 与播放器通信\n### 播放器抛出事件\n\n播放器详情流程参考[这里](/frontend/project-player#与基础代码通信)\n主要通过在播放器代码中通过View类的`callJsDoSomething`去触发事件，web端页面通过`player.on('setJsDoSomething')`接受事件"
+  },
+  {
+    "chunk_id": "8262c652-a76f-4f84-b270-2c0ecc0a0eaf",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 与播放器通信\n### 播放器执行web端函数\n\n典型的例子是播放器中需要打开web端的收银台，源码`packages/mars/view/view-controller.js`\n首先需要web侧的方法（如打开收银台）挂载到全局window上，然后在播放器中直接执行window上的方法即可"
+  },
+  {
+    "chunk_id": "5ac699bf-fbbc-46de-9f7c-b312b2e54e89",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 与播放器通信\n### web端执行播放器的函数\n\n播放器代码在初始化后会创建window.player对象(H5Adapter实例)，在player字段上存在字段：\n* adapter（适配器）：是H5Adapter 实例\n* engine（引擎）：是DataEngine 实例\n* view（视图）：View 实例（来自 skin.base.js）\n这些字段上的值，可以直接获取到，如通过`window.player.package.engine.movieinfo`可以查看当前影片的信息、通过执行`player.getCurrentVD()`可以获取到当前影片的清晰度"
+  },
+  {
+    "chunk_id": "92e364ee-92f8-45f6-a7e2-d5a80b1f9068",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 常见问题速查（Q&A）\n### 为什么构建发布后没有立即生效，需要等待很久？\n\n该CDN为多层缓存架构，默认每层缓存时长为5分钟。极端情况下，若两层缓存均需独立刷新，则内容完全更新最多需要10分钟。此外，发布新内容后，清理全网缓存所需时间同样为5分钟。"
+  },
+  {
+    "chunk_id": "fab0fe58-618f-4fd4-9020-037bdc90d256",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 常见问题速查（Q&A）\n### 开发环境如何调试播放器代码？\n\n1. **播放器代码修改思路：每次代码变更后打包并启动本地http服务，将打包产物暴露出来**\n:::code-group\n```bash [pcw-main-player]\n# 1. /packages/pcw-main-player/__server/build.js\n# 修改打包路径前缀\nconst prefix = '/localPlayer'\n\n# 2. 可以通过python或node启动文件服务\n# 以node中的anwhere包为例，已经包装到buildStartServerLocal.sh中，直接执行即可启动8000端口\n./buildStartServerLocal.sh\n```\n```bash [mars广告相关]\n# 1. /packages/mars/core/sdk.js\n# 修改打包路径前缀\nlet vcUrl = '/localMars/adver.js?t=' + Date.new()\n\n# 2. 可以通过python或node启动文件服务\n# 以node中的anwhere包为例，已经包装到buildMarsStartServerLocal.sh中，直接执行即可启动8010端口\n./buildMarsStartServerLocal.sh\n```\n:::\n2. **基础代码修改思路：修改引入地址与本地代理**\n```diff\n# /public/index.html\n- <script type=\"text/javascript\" src=\"//static-d.iqiyi.com/iv0401/pcweb.wonder.js\"></script>\n+ <script type=\"text/javascript\" src=\"/localPlayer/pcweb.wonder.js\"></script>\n\n# vue.config.js\ndevServer: {\n+   proxy: {\n+    '^/localPlayer': {\n+       // mac电脑打包后启动的node服务地址\n+       target: 'http://xxxxx:8000',\n+       changeOrigin: true,\n+       pathRewrite: {\n+         '^/localPlayer': ''\n+       }\n+     },\n+     '^/localMars': {\n+       target: 'http://xxxxx:8000',\n+       changeOrigin: true,\n+       pathRewrite: {\n+         '^/localMars': ''\n+       }\n+     }\n+   }\n},\n```"
+  },
+  {
+    "chunk_id": "01edd7e1-3086-41b9-a5ca-ac509cd19779",
+    "source_file": "data/frontend/project-iqiyi-vehicle.md",
+    "content": "# 爱奇艺车载 h5\n## 常见问题速查（Q&A）\n### 为什么路由没有使用动态import的方式？\n\n由于是历史代码，猜测可能有以下原因：\n1. 所有js代码在测试与生产环境都是通过versionIsolation.js动态注入的，如果是路由写成动态import，会生成多个js文件，这在动态注入时就不知道要注入哪些文件了\n2. 业务代码中存在对断网环境的处理，如果是路由写成动态import，那么在断网时进入新页面不会显示断网的组件，而是加载失败"
+  },
+  {
+    "chunk_id": "2ba3e83e-56ab-4444-9ca8-1a1b1be3ae51",
+    "source_file": "data/frontend/index.md",
+    "content": "# 前端项目\n## 项目汇总\n\n| 产品线 |  项目名称   | 仓库地址 | 技术栈 |\n| ---- | ---- | ---- | ---- |\n| 爱奇艺 | 爱奇艺车载h5 | [http://172.28.10.85/iqiyi/iqiyi-vehicle](http://172.28.10.85/iqiyi/iqiyi-vehicle) | vue@3.2.13 + vue-router + vuex + vant |\n| 爱奇艺 | 爱奇艺车载h5播放器 | [https://github.com/iqiyi/IQIYI_H5_IV](https://github.com/iqiyi/IQIYI_H5_IV) | - |"
+  },
+  {
+    "chunk_id": "889d8939-e8bf-486f-966d-0140a6dd43d1",
+    "source_file": "data/frontend/index.md",
+    "content": "# 前端项目\n## 项目环境地址\n### 爱奇艺车载h5"
+  },
+  {
+    "chunk_id": "b9de39bd-4d79-4bc0-923f-86c54bb4dad5",
+    "source_file": "data/frontend/index.md",
+    "content": "\n\n|  车企   | 环境 | 地址 | 分支 |\n| ---- | ---- | ---- | ---- |\n| 特斯拉 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=tesla](https://www.iqiyi.com/iv0401#/?ver=tesla) |基础代码：iqiyi-fronend-tesla<br>播放器代码：player-tesla|\n| 特斯拉 | 正式 | [https://www.iqiyi.com/iv#/?ver=tesla](https://www.iqiyi.com/iv#/?ver=tesla) |基础代码：iqiyi-fronend-tesla-prod<br>播放器代码：player-tesla-prod|\n| 斑马智己 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=bm_zj](https://www.iqiyi.com/iv0401#/?ver=bm_zj) |基础代码：iqiyi-frontend<br>播放器代码：player-bm_zj|\n| 斑马智己 | 正式 | [https://www.iqiyi.com/iv#/?ver=bm_zj](https://www.iqiyi.com/iv#/?ver=bm_zj) |基础代码：iqiyi-frontend-prod<br>播放器代码：player-bm_zj|\n| 斑马上乘 | 测试 | [https://www.iqiyi.com/iv0401#/?ver=bm_sc](https://www.iqiyi.com/iv0401#/?ver=bm_sc) |基础代码：iqiyi-frontend<br>播放器代码：player-bm_sc|\n| 斑马上乘 | 正式 | [https://www.iqiyi.com/iv#/?ver=bm_sc](https://www.iqiyi.com/iv#/?ver=bm_sc) |基础代码：iqiyi-frontend-prod<br>播放器代码：player-bm_sc|\n| 现代LG | 测试 | [https://www.iqiyi.com/iv0401#/?ver=lg_xd](https://www.iqiyi.com/iv0401#/?ver=lg_xd) |基础代码：iqiyi-frontend-lg<br>播放器代码：player-lg_xd|\n| 现代LG | 正式 | [https://www.iqiyi.com/iv#/?ver=lg_xd](https://www.iqiyi.com/iv#/?ver=lg_xd) |基础代码：iqiyi-frontend-lg<br>播放器代码：player-lg_xd|"
+  },
+  {
+    "chunk_id": "33e00829-b8be-4e11-81f3-965d3ae3ecef",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n\n现存资料：https://f1hw6tab9q.feishu.cn/wiki/EFL4w2mayi0Y8KkPfHqc8uqfnye"
+  },
+  {
+    "chunk_id": "9f1dea3f-596d-4e8f-ba72-0b1143c5db42",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 智己车机\n\n12v电压"
+  },
+  {
+    "chunk_id": "25d03c3e-13d9-4b9c-9835-225ca4eb1b81",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## adb连接\n\n不需要重新安装adb，直接在资料包的windows目录下启动cmd，此时使用的adb就是资料包中自带的，**本文档以下关于智己的adb都指的是windows下的adb，不再赘述**\n使用adb -host shell连接车机，如果连接不上一般有以下原因：\n1. 没有使用windows下的adb\n2. 驱动问题，下载安装：\\\\hz-delivery02\\MCPG\\ProjectDelivery\\P00460\\62530\\Delivery\\actuate\n通过`adb -host devices`查看是否有连接的设备"
+  },
+  {
+    "chunk_id": "b1e08387-e905-4709-a19e-a9144517ecdf",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 网络连接\n\n智己车机首次启动时网络是关闭的，需要通过adb执行命令去启动网络\n```bash\nadb -host shell\nwifi_cli\nactive\nscan         # 非首次执行到这一步等待一会就能自己连上网络了\ncoonnet\n输入要连接的wifi序号\n输入wifi密码\n```\n资料包中的智己关闭网络.bat可以使网络断开，但智己打开网络.bat无效，需要重复上述操作打开网络"
+  },
+  {
+    "chunk_id": "97f3a699-9447-4fd7-b404-180b3d212963",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 杀死爱奇艺\n\n```bash\nadb -host shell\nkillall iqiyi\n```"
+  },
+  {
+    "chunk_id": "06f02308-7210-43e4-926b-feb715edec32",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 黑夜白天模式切换\n\n```bash\nadb -host shell\n\n# 切换成黑夜\nsetprop \"persist.sys.aui.extend.setting\" \"hdt\" && setprop \"persist.sys.aui.setting\" \"aui\"\n\n# 切换白天\nsetprop \"persist.sys.aui.extend.setting\" \"hdt_light\" && setprop \"persist.sys.aui.setting\" \"aui_light\"\n```"
+  },
+  {
+    "chunk_id": "7520f8ce-f329-409a-9fab-6c58996a878f",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 安装与卸载\n\n```bash\nadb -host shell\n# 卸载\nypm -u iqiyi.alios.cn\n```\n安装时需要将资料包中的【iqiyi.alios.cn（智己）.ypp】文件拷贝至windows目录下，修改文件名为【iqiyi.alios.cn.ypp】，然后执行以下命令\n```bash\nadb -host push iqiyi.alios.cn.ypp /tmp/\nadb -host shell\necho enable 0 > /proc/alog;mount -o remount rw /\nypm -i /tmp/iqiyi.alios.cn.ypp\n```\n【iqiyi.alios.cn（智己）.ypp】文件应该是测试环境的包，如不确定可以安装后运行并抓取日志查看播放地址是否包含iv0401，就是测试环境，否则是正式环境"
+  },
+  {
+    "chunk_id": "30422ad0-cb56-459c-8f37-6ed0edb56213",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## CPU测试\n\n1. 分别执行文档中操作\na. 启动应用，勾选统一协议弹框\nb. 切换各个tab并滑动主窗口\nc. 点击一个视频播放\n2. 针对每一项操作分别抓取日志\n```bash\n# 输出文件名建议区分三种场景\nadb -host shell \"top -d 1 | grep iqiyi\" > D:\\logs\\cpu\\test1.log\n```\n3. 数据处理（node脚本已经上传(github)[https://github.com/jackzer666/vehicle-log-utils]）\n```bash\n# 执行后会处理日志文件中的前20条cpu数据到结果文件中，直接复制到excel中即可\nnode cpu.js test1.log\n```"
+  },
+  {
+    "chunk_id": "432d6356-75fd-4df9-b81b-b1aafddd5b53",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 起播时间\n\n1. 在操作之前就连接adb抓取日志\n```bash\nadb -host shell \"logctl | grep -E 'WebEngine-WebViewAPI|INFO:CONSOLE|iqiyi-video'\" > D:\\logs\\cpu\\test2.log\n```\n2. 操作（严格按照excel中的顺序和操作次数，后面对日志数据处理会对应）\na. 非kill：针对每种视频类型点击打开播放，每种视频操作三次\nb. kill：kill爱奇艺，针对每种视频类型点击打开播放，重复三次\n3. 数据处理\n对日志中关键词获取其时间：\n* 开始时间关键词：\"h5_call_bm_send_enter_page\\\",[\\\"player\\\"]]\n* 正片结束时间关键词：\\\"h5_call_bm_send_video_state\\\",[\\\"playing\\\"]]\n* 广告结束时间关键词：h5_call_bm_send_video_state\\\",[\\\"adstartplay\\\"]]\n```bash\n# 执行后会处理日志文件中的起播时间输出到结果文件中，直接复制到excel中即可\nnode time.js test2.log\n```"
+  },
+  {
+    "chunk_id": "2cc4ac57-0590-4a05-b90f-d451e055f08c",
+    "source_file": "data/frontend/hardware-connect-bmzj.md",
+    "content": "# 智己车机连接\n## 运行monkey脚本\n\n1. 安装 python3.10\n2. 运行挂P档脚本\n```bash\nadb -host shell\necho \"enable n;\" > /proc/alog && mount -o remount,rw /\necho \"enable n;\" > /proc/alog\necho 1:IPCL_CAN_SIGNAL_EVENT:4,0100000074be00000000000030bfd63100000000> /sys/class/ipcl0/debug/fake_uevent\nvapisend ctrl.custom.536870937 '{\"RESULT\":0,\"CMD\":\"ctrl.custom.536870937\",\"PARAM\":\"{\\\"sigVal\\\":\\\"2\\\"}\"}'\n```\n3. 执行monkey命令\n```bash\nadb -host shell\n# 文档中的旧版03指令\namt start local monkey --ionmem --cpuinfo  -p iqiyi.alios.cn  -p page://iqiyi.alios.cn/iqiyi nlog --mem  --phone --memtime 1 -v -v -v -s 42 --ignore-crashes --ignore-timeouts --ignore-security-exceptions --kill-process-after-error --pct-trackball 0 --pct-nav 0 --pct-anyevent 0 --pct-flip 0 --pct-pinchzoom 0 --throttle 300 1200000000\n```\n4. 运行banmaH5_get_TopCpu.py脚本，不要使用cmd运行，因为看不到报错信息。建议使用pycharm，运行时报错基本上是一些依赖包没有导致的，安装后运行看是否正常\n5. 运行几分钟后，去http://10.10.118.92:3000/login（账号admin 密码li123456）查看是否有数据产生\n6. 一般测试报告需要12小时的数据，因此需要运行脚本一整个晚上。需要：关闭电脑的自动息屏、自动关机、自动更新，确保不会因关机导致脚本中断\n7. 使用平台上的数据，更新报告中的PSS模块数据"
+  },
+  {
+    "chunk_id": "224fc6ee-9aaf-410e-bdcf-02b2af51798a",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 流程概述\n\n本流程定义了前端开发从需求确认到生产上线的标准步骤，涵盖**日常迭代**与**线上紧急修复**两种场景，旨在提升协作效率、代码质量和发布可靠性"
+  },
+  {
+    "chunk_id": "48e04736-2163-4ed5-8cb1-a483c4d51fbf",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 详细流程\n\n```mermaid\nflowchart TD\nA[接收需求] --> B[评估工时与提测时间]\nB --> C{多人开发?}\n\nC -->|否| D[直接基于 test分支开发]\nC -->|是| E[基于 test分支创建 feature分支]\nE --> F[在 feature分支开发]\n\nD --> G\nF --> G[遵循代码规范<br>使用格式化工具]\n\nG --> H[功能完成<br>提交代码 commit]\nH --> I{多人开发?}\n\nI -->|是| J[合并 feature分支到 test分支]\nI -->|否| K[直接推送到 test分支]\n\nJ --> L[通知爱奇艺发布测试环境]\nK --> L\n\nL --> M[测试环境冒烟测试]\nM --> N[创建Jira测试单]\nN --> O[发送提测邮件<br>附性能测试结果]\n\nO --> P{测试通过?}\nP -->|否| Q[修复Bug<br>规划到下个版本]\nP -->|是| R[合并 test分支到 prod分支]\n\nR --> S[通知爱奇艺发布生产环境]\nS --> T[完成: test与prod分支同步]\n```"
+  },
+  {
+    "chunk_id": "36506417-1b6a-49b1-82bb-ad93a08d2378",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 详细流程\n### 阶段一：开发准备\n\n1. **需求确认**：详细阅读需求，评估工时，明确提测时间点\n2. **联调确认**：如有联调需求，与后端确认接口文档与联调时间\n3. **环境准备**：\n* 拉取对应仓库代码\n* 切换至正确的Node版本\n* 安装项目依赖（首次）\n* 使用对应命令启动本地开发服务器"
+  },
+  {
+    "chunk_id": "be64237b-6410-40cf-abab-1b8ea7c33f3f",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 详细流程\n### 阶段二：开发与提交\n\n1. **分支策略**：\n* **前提**：每个车企在仓库中拥有专属的**测试环境分支**和**生产环境分支**，以爱奇艺h5为例，对于特斯拉车企，拥有`iqiyi-frontend-tesla-test`与`iqiyi-frontend-tesla-prod`\n* **单人开发**：直接在`iqiyi-frontend-{车企}-test`分支上进行开发\n* **多人协作**：必须从`iqiyi-frontend-{车企}-test`分支创建个人功能分支（例：`iqiyi-frontend-{车企}-20251230-zt`），开发完成后合并至`iqiyi-frontend-{车企}-test`分支，禁止直接推送\n2. **编码规范**：\n* 使用项目配置的**代码格式化工具**，确保提交前代码格式统一\n* 遵循团队[**代码规范文档**](https://alidocs.dingtalk.com/i/nodes/XPwkYGxZV3y1Q19Zfg2aeLn18AgozOKL)（处理格式化工具无法覆盖的约定）\n3. **代码提交**：\n* 提交应围绕独立的功能点或Bug进行，即进行功能拆分提交\n* **提交信息格式**：类型:\\[jira单号\\]修改描述，项目中会使用插件强制要求，不符合格式无法提交\n* 类型：`feat`(新功能)、`fix`(修复)、`docs`(文档)、`style`(格式)等\n* 示例：fix:\\[ICOV-12081\\]儿童频道禁用弹幕功能  \n```mermaid\nflowchart TD\nA[开始新需求开发] --> B{需求场景?}\n\nB --> C[单人开发]\nB --> D[多人协作同一需求]\nB --> E[线上紧急修复]\n\nC --> F[基于 test分支直接开发]\nD --> G[基于 test分支创建<br>个人feature分支]\nE --> H[基于 prod分支创建<br>hotfix分支]\n\nF --> I[开发完成直接推送到 test分支]\nG --> J[开发完成后合并到 test分支]\nH --> K[修复后合并到 prod和test分支]\n\nI --> L[进入提测流程]\nJ --> L\nK --> M[进入紧急发布流程]\n\nsubgraph 分支说明\nN1[test分支: 测试环境基准]\nN2[prod分支: 生产环境基准]\nN3[feature-*: 功能开发分支]\nN4[hotfix-*: 紧急修复分支]\nend\n```\n```mermaid\ngitGraph\ncommit id: \"初始状态\"\nbranch iqiyi-frontend-tesla-prod\ncheckout iqiyi-frontend-tesla-prod\ncommit id: \"v1.0 生产发布\" tag: \"生产基线\"\n\nbranch iqiyi-frontend-tesla-test\ncheckout iqiyi-frontend-tesla-test\n\n%% 场景一：单人开发流程\ncheckout iqiyi-frontend-tesla-test\ncommit id: \"功能开发\" type: HIGHLIGHT\n\n%% 测试中发现bug（小版本修复）\ncommit id: \"修复bug1: fix: [ICOV-xxx]xxx问题\" type: HIGHLIGHT\n\n%% 生产发布\ncheckout iqiyi-frontend-tesla-prod\nmerge iqiyi-frontend-tesla-test id: \"上线日合并test到prod\" type: REVERSE tag: \"新版本\"\n\n%% 场景二：多人协作流程\ncheckout iqiyi-frontend-tesla-test\nbranch iqiyi-frontend-tesla-20251230-zt\ncheckout iqiyi-frontend-tesla-20251230-zt\ncommit id: \"开发功能X: feat: [ICOV-xxx]功能X\" type: HIGHLIGHT\n\n\n%% 合并到test分支\ncheckout iqiyi-frontend-tesla-test\nmerge iqiyi-frontend-tesla-20251230-zt id: \"合并成员Zt代码\" type: REVERSE\n\n%% 生产发布\ncheckout iqiyi-frontend-tesla-prod\nmerge iqiyi-frontend-tesla-test id: \"上线日合并test到prod2\" type: REVERSE tag: \"新版本2\"\n\n\n%% 场景三：紧急修复流程\ncheckout iqiyi-frontend-tesla-prod\nbranch iqiyi-frontend-tesla-hotfix-20251230\ncheckout iqiyi-frontend-tesla-hotfix-20251230\ncommit id: \"紧急修复: fix: 线上紧急问题\" type: HIGHLIGHT\n\n\n%% 合并到prod\ncheckout iqiyi-frontend-tesla-prod\nmerge iqiyi-frontend-tesla-hotfix-20251230 id: \"合并hotfix到prod\" type: REVERSE\ncommit id: \"v1.1.1 紧急发布\" tag: \"热修复\"\n\n%% 同步到test分支\ncheckout iqiyi-frontend-tesla-test\nmerge iqiyi-frontend-tesla-hotfix-20251230 id: \"同步hotfix到test\" type: REVERSE\n\n%% 最终状态\ncheckout iqiyi-frontend-tesla-test\ncommit id: \"准备下一迭代...\"\n```"
+  },
+  {
+    "chunk_id": "83f5dea6-8314-4bc5-a02d-f219b8abc40e",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 详细流程\n### 阶段三：测试与发布\n\n1. **提测流程**：\n* 将提交的代码全部合并至`iqiyi-frontend-{车企}-test`分支\n* 通知爱奇艺发布侧，发布指定车企的**测试环境**（需明确：项目、车企、环境、分支）\n* 在**测试环境**完成提测前的检查工作，包括冒烟用例、性能检测，通过后创建jira测试单\n* **发送提测邮件**，附上测试地址、修改范围、性能测试结果、jirabug单，并通知相关干系人\n* 详细流程[点这里](https://alidocs.dingtalk.com/i/nodes/jb9Y4gmKWrbGrGLPfp0e2xAEWGXn6lpz)，运行性能脚本流程[点这里](https://alidocs.dingtalk.com/i/nodes/6LeBq413JAePvPywUR5plvRkJDOnGvpb)\n2. **Bug修复流程**：\n* **前提**：在一个大迭代下可能会规划多个小版本，每个小版本会修复遗留bug\n* 测试发现的bug，根据bug重要程度，考虑是否规划小版本进行修复，小版本提测需重新走完整提测发布流程\n* 当虹内部测试通过之后，项目经理会通知爱奇艺侧进行测试，对于发现的bug会同上流程处理\n3. **生产发布流程**：\n* 测试通过后，在**上线当天**将`iqiyi-frontend-{车企}-test`分支合并至`iqiyi-frontend-tesla-prod`分支\n* **通知爱奇艺发布侧**，发布指定车企的**生产环境**（需明确：项目、车企、环境、分支）\n* 生产发布后，测试与生产分支节点应已一致，为下一版本做准备"
+  },
+  {
+    "chunk_id": "62236690-610c-4b05-8e17-8eef5d93d479",
+    "source_file": "data/frontend/prepare-standard-process.md",
+    "content": "# 开发流程\n## 详细流程\n### 阶段四：线上问题处理（紧急通道）\n\n```mermaid\nflowchart TD\nA[发现线上紧急问题] --> B[从 prod分支创建 hotfix分支]\nB --> C[在 hotfix分支修复问题]\nC --> D[将 hotfix分支发布到测试环境<br>（临时占用）]\nD --> E[在测试环境快速验证]\n\nE --> F{验证通过?}\nF -->|否| C\nF -->|是| G[恢复测试环境到原状态]\n\nG --> H[合并 hotfix分支到 prod分支]\nH --> I[通知爱奇艺紧急发布生产]\nI --> J[完成: 问题修复]\n\nstyle D fill:#f9f,stroke:#333,stroke-width:2px\nstyle I fill:#f96,stroke:#333,stroke-width:2px\n```  \n1. **线上问题反馈**：\n* 目前无主动监控，依赖客户反馈，客户一般会提供现象视频与车机日志\n* 收到反馈后，根据日志排查。确认为问题后，评估严重性，规划到常规迭代或启动紧急修复流程\n2. **紧急修复**：\n* **创建分支**：从`iqiyi-frontend-{车企}-prod`分支创建`iqiyi-frontend-{车企}-hotfix-{日期}`分支\n* **提测**：完成修复后，将`hotfix`分支**临时发布到测试环境**进行提测，提测流程遵循上述提测流程\n* **合并分支**：验证通过后，并将`hotfix`分支合并至`iqiyi-frontend-{车企}-prod`分支\n* **发布**：通知爱奇艺发布侧，进行生产环境紧急发布，同时将测试环境还原\n* **合并测试分支**：将`hotfix`分支合并至当前迭代的`iqiyi-frontend-{车企}-test`分支"
+  }
+]
