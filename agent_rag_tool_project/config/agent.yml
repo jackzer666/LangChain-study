@@ -1,3 +1,7 @@
 #chat_model_name: deepseek-chat
 chat_model_name: glm-5.1
+chat_model_air: glm-4.7
+chat_model_rewrite: glm-4.5-air
+#chat_model_rewrite: MiniMax-M2.7-highspeed
+
 embedding_model_name: embedding-3

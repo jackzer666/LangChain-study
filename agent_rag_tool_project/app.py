@@ -1,5 +1,3 @@
-import time
-
 from agent_rag_tool_project.agent.react_agent import ReactAgent
 import streamlit as st
 
@@ -29,11 +27,8 @@ if prompt:
         def capture(generator, cache_list):
             for chunk in generator:
                 cache_list.append(chunk)
-
-                for char in chunk:
-                    time.sleep(0.01)
-                    yield char
+                yield chunk
 
         st.chat_message("assistant").write_stream(capture(res_stream, response_messages))
-        st.session_state["message"].append({"role": "assistant", "content": response_messages[-1]})
+        st.session_state["message"].append({"role": "assistant", "content": "".join(response_messages)})
         st.rerun()

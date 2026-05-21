@@ -1,7 +1,8 @@
+import time
 from typing import Callable
 
 from langchain.agents import AgentState
-from langchain.agents.middleware import wrap_tool_call, before_model, dynamic_prompt, ModelRequest
+from langchain.agents.middleware import wrap_model_call, wrap_tool_call, before_model, dynamic_prompt, ModelRequest
 from langchain.tools.tool_node import ToolCallRequest
 from langchain_core.messages import ToolMessage
 from langgraph.runtime import Runtime
@@ -9,6 +10,20 @@ from langgraph.types import Command
 
 from agent_rag_tool_project.utils.logger_handler import logger
 from agent_rag_tool_project.utils.prompt_loader import load_report_prompts, load_system_prompts
+
+
+@wrap_model_call
+def monitor_model(request: ModelRequest, handler: Callable):
+    """
+    记录每次Agent模型请求耗时。
+    """
+    message_count = len(request.state.get("messages", []))
+    started_at = time.perf_counter()
+    try:
+        return handler(request)
+    finally:
+        elapsed = time.perf_counter() - started_at
+        logger.info(f"[monitor_model]模型调用耗时：{elapsed:.2f}s，消息数：{message_count}")
 
 
 @wrap_tool_call

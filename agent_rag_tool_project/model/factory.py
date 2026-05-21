@@ -5,8 +5,9 @@ from langchain_core.language_models import BaseChatModel
 from agent_rag_tool_project.utils.config_handler import rag_conf, agent_conf
 from langchain_community.embeddings import ZhipuAIEmbeddings
 from langchain_community.chat_models import ChatZhipuAI
+from langchain_openai import ChatOpenAI
 
-from env_utils import ZHIPUAI_API_KEY
+from env_utils import ZHIPUAI_API_KEY, MINIMAX_API_KEY, MINIMAX_BASE_URL
 
 
 class BaseModelFactory(ABC):
@@ -18,9 +19,23 @@ class BaseModelFactory(ABC):
 class ChatModelFactory(BaseModelFactory):
     def generator(self) -> Optional[Embeddings | BaseChatModel]:
         return ChatZhipuAI(
-            model = agent_conf["chat_model_name"],
+            model = agent_conf["chat_model_air"],
             api_key=ZHIPUAI_API_KEY
         )
+
+class RewriteModelFactory(BaseModelFactory):
+    def generator(self) -> Optional[Embeddings | BaseChatModel]:
+        return ChatZhipuAI(
+            model=agent_conf["chat_model_rewrite"],
+            api_key=ZHIPUAI_API_KEY,
+        )
+        # return ChatOpenAI(
+        #     model=agent_conf["chat_model_rewrite"],
+        #     api_key=(MINIMAX_API_KEY or "").strip(),
+        #     base_url=(MINIMAX_BASE_URL or "https://api.minimax.io/v1").strip(),
+        #     temperature=0,
+        # )
+
 
 class EmbeddingsFactory(BaseModelFactory):
     def generator(self) -> Optional[Embeddings | BaseChatModel]:
@@ -33,4 +48,5 @@ class EmbeddingsFactory(BaseModelFactory):
 
 
 chat_model = ChatModelFactory().generator()
+rewrite_model = RewriteModelFactory().generator()
 embed_model = EmbeddingsFactory().generator()
