@@ -17,13 +17,9 @@ class Bm25:
         store_dir = get_abs_path(chroma_conf["persist_directory"])
         os.makedirs(store_dir, exist_ok=True)
 
-        chunk_count = {}
         for doc in document:
             current_file = doc.metadata.get("source_file")
-            if not current_file in chunk_count:
-                chunk_count[current_file] = 0
-            else:
-                chunk_count[current_file] += 1
+            chunk_index = doc.metadata.get("chunk_index")
 
             chunk_data = {
                 # chunk_id作为主键放在最外层，访问效率更高
@@ -37,9 +33,9 @@ class Bm25:
                     "source_file": current_file,
                 },
                 # 当前片段属于哪个文档，便于parent retrieval
-                "doc_id": current_file,
+                "doc_id": doc.metadata.get("doc_id") or current_file,
                 # 这是文档中的第几个chunk，便于后续扩展上下文
-                "chunk_index": chunk_count[current_file],
+                "chunk_index": chunk_index,
 
                 # TODO: 以下后续实现
                 "parent_id": "",
@@ -82,6 +78,9 @@ class Bm25:
                         "h3": data.get("metadata", {}).get("h3"),
                         "chunk_id": data.get("chunk_id"),
                         "source_file": data.get("metadata", {}).get("source_file"),
+                        "doc_id": data.get("doc_id"),
+                        "chunk_index": data.get("chunk_index"),
+                        "parent_id": data.get("parent_id"),
                     },
                 )
                 documents.append(doc)

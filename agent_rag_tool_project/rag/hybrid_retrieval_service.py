@@ -7,9 +7,11 @@ from langchain_classic.retrievers import EnsembleRetriever
 from langchain_core.documents import Document
 
 from agent_rag_tool_project.rag.bm25 import Bm25
+from agent_rag_tool_project.rag.parent_expander import HeadingParentExpander
 from agent_rag_tool_project.rag.ranker import BM25_WEIGHT, HYBRID_RANK_BASE, HYBRID_RECALL_K, VECTOR_WEIGHT, \
     HybridRankItem, MultiQueryRankItem, RagRanker
 from agent_rag_tool_project.rag.vector_store import VectorStoreService
+from agent_rag_tool_project.utils.config_handler import rag_conf
 from agent_rag_tool_project.utils.logger_handler import logger
 
 
@@ -39,6 +41,7 @@ class HybridRetrievalService:
         self.retriever = self.vector_store.get_retriever()
         self.bm25_retriever = bm25_retriever or Bm25().get_bm25_retriever()
         self.ranker = ranker or RagRanker()
+        self.parent_expander = HeadingParentExpander()
         self.ensemble_retriever = self.get_ensemble_retriever()
 
     def hybrid_retriever(self, query: str, final_k: int = 10) -> list[Document]:
@@ -167,7 +170,19 @@ class HybridRetrievalService:
             self._merge_multi_query_results(query, merged)
 
         rank_items = self.ranker.rank_multi_query_items(merged, original_query_tokens)
-        docs = self._to_multi_query_docs(rank_items[:final_k])
+        parent_conf = rag_conf.get("parent_retrieval", {})
+        if parent_conf.get("enabled", False):
+            docs = self.parent_expander.expand_rank_items(
+                rank_items,
+                final_k=final_k,
+                max_parent_chars=parent_conf.get("max_parent_chars", 3000),
+                fallback_parent_chunk_count=parent_conf.get("fallback_parent_chunk_count", 3),
+                query_hit_bonus=parent_conf.get("query_hit_bonus", 0.15),
+                child_hit_bonus=parent_conf.get("child_hit_bonus", 0.1),
+                max_bonus_hits=parent_conf.get("max_bonus_hits", 3),
+            )
+        else:
+            docs = self._to_multi_query_docs(rank_items[:final_k])
         logger.info(f"[multi_query_retriever] final_docs={docs}")
         return docs
 

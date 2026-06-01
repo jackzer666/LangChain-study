@@ -120,9 +120,9 @@ class VectorStoreService:
 
             # 获取文件md5
             md5_hex = get_file_md5_hex(path)
-            # if check_md5_hex(md5_hex):
-            #     logger.info(f"[加载知识库]{path}内容已经存在知识库中，跳过")
-            #     continue
+            if check_md5_hex(md5_hex):
+                logger.info(f"[加载知识库]{path}内容已经存在知识库中，跳过")
+                continue
 
             try:
                 documents: list[Document] = get_file_documents(path)
@@ -136,14 +136,18 @@ class VectorStoreService:
                     relative_path
                 )
 
-                # 为每个chunk添加metadata，尤其是chunk_id，为后续召回分析作准备
-                for doc in split_document:
+                # 为每个chunk添加metadata，尤其是chunk_id和chunk_index，为后续召回分析与parent retrieval作准备
+                for chunk_index, doc in enumerate(split_document):
                     chunk_id = str(uuid.uuid4())
                     doc.metadata["chunk_id"] = chunk_id
                     doc.metadata["source_file"] = relative_path # path可能是完整路径，后续考虑是否修改
+                    doc.metadata["doc_id"] = relative_path
+                    doc.metadata["chunk_index"] = chunk_index
                     chunk_mappings.append({
                         "chunk_id": chunk_id,
                         "source_file": relative_path,
+                        "doc_id": relative_path,
+                        "chunk_index": chunk_index,
                         "content": doc.page_content,
                     })
 

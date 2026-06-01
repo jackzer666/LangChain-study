@@ -15,7 +15,7 @@ class RagReferenceFormatter:
     只处理“Document列表 -> 精简参考资料字符串”的流程。Agent拿到该字符串后负责最终总结回答。
     """
 
-    def __init__(self, max_content_chars: int = 260):
+    def __init__(self, max_content_chars: int = 1200):
         """
         初始化参考资料格式化器。
 
