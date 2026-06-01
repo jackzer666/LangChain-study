@@ -6,3 +6,12 @@ query_rewrite:
   enabled: true
   max_queries: 3
   use_original_query: true
+
+parent_retrieval:
+  enabled: true
+  strategy: heading
+  max_parent_chars: 3000
+  fallback_parent_chunk_count: 3
+  query_hit_bonus: 0.15
+  child_hit_bonus: 0.1
+  max_bonus_hits: 3
