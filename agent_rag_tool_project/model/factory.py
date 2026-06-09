@@ -23,6 +23,15 @@ class ChatModelFactory(BaseModelFactory):
             api_key=ZHIPUAI_API_KEY
         )
 
+
+class StreamingChatModelFactory(BaseModelFactory):
+    def generator(self) -> Optional[Embeddings | BaseChatModel]:
+        return ChatZhipuAI(
+            model=agent_conf["chat_model_air"],
+            api_key=ZHIPUAI_API_KEY,
+            streaming=True,
+        )
+
 class RewriteModelFactory(BaseModelFactory):
     def generator(self) -> Optional[Embeddings | BaseChatModel]:
         return ChatZhipuAI(
@@ -48,5 +57,6 @@ class EmbeddingsFactory(BaseModelFactory):
 
 
 chat_model = ChatModelFactory().generator()
+streaming_chat_model = StreamingChatModelFactory().generator()
 rewrite_model = RewriteModelFactory().generator()
 embed_model = EmbeddingsFactory().generator()
